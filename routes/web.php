@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SerieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +23,7 @@ Route::get('/', function () {
 });
 
 Route::get('/about', [AboutController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::get('/serie', [SerieController::class, 'index']);
+Route::get('/myprofile', [ProfileController::class, 'index']);
