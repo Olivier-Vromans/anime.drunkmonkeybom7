@@ -21,9 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+//SubUrl inside the websites
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index']);
 Route::get('/register', [RegisterController::class, 'index']);
 Route::get('/serie', [SerieController::class, 'index']);
-Route::get('/myprofile', [ProfileController::class, 'index']);
+Route::get('/profile', [ProfileController::class, 'index']);
+

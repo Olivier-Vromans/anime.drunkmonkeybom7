@@ -3,6 +3,8 @@ body{
     padding: 0px;
     font-family: 'Nunito', sans-serif;
     background-color: rgba(151,151,151,0.03);
+    text-align: center;
+    background-color: #343a40!important;
 }
 *{
     box-sizing: border-box;
@@ -13,31 +15,8 @@ ul{
 a{
     text-decoration: none;
 }
-nav{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    border: 1px solid rgba(0,0,0,0.04);
-    background-color: #ffffff;
-}
-.logo image{
-    height: 35px;
-}
-nav .menu{
-    display: flex;
-}
-nav .menu li a{
-    height: 40px;
-    line-height: 43px;
-    margin: 0px;
-    padding: 0px 22px;
-    display: flex;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: #585858;
-    letter-spacing: 1px;
+.logo img{
+    height: 90px;
 }
 .search{
     width: 250px;
@@ -57,11 +36,10 @@ nav .menu li a{
     background-color: transparent;
 }
 .search i{
-    color: #3a3a3a;
+    color: #000000;
 }
-nav .menu li a:hover{
-    background-color: #242424;
-    color: #ffffff;
-    box-shadow: 5px 10px 30px rgba(53,53,53,0.1);
-    transition: all ease 0.2s;
+@media screen and (max-width: 768px) {
+    .logo img{
+        display: none;
+    }
 }
