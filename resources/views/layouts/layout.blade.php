@@ -40,23 +40,34 @@
                 <li class="nav-item">
                     <a class="nav-link text-right" href="#">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-right" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-right" href="#">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-right disabled" href="#">Profile</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+
+                @guest
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link text-right" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link text-right " href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link text-right" href="#">{{ Auth::user()->username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-right" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                @endguest
             </ul>
             <form class="form-inline my-2 my-lg-0 justify-content-end">
                 <div class="search">

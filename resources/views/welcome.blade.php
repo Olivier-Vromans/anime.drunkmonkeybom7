@@ -15,4 +15,7 @@
     </header>
 @endsection
 @section('content')
+    @foreach($animes as $anime)
+        <li>{{$anime['title']}}</li>
+    @endforeach
 @endsection
