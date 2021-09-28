@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('header')
     <header class="py-5">
         <div class="container px-lg-5">

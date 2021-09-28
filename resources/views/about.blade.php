@@ -1,34 +1,18 @@
-@extends('layout')
-    <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/587a279f36.js" crossorigin="anonymous"></script>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/app.css">
-</head>
+@extends('layout.layout')
 <!--Navigation-->
 @section('nav')
 @endsection
 <body>
-<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 dark:text-white">
-        <h1>{{ htmlentities($title) }}</h1>
-        <p> {{ htmlentities($paragraph) }} </p>
+@section('content')
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 dark:text-white">
+            <h1>{{ htmlentities($title) }}</h1>
+            <p> {{ htmlentities($paragraph) }} </p>
+        </div>
     </div>
-</div>
+@endsection
 </body>
-</html>
+
 
 
 
