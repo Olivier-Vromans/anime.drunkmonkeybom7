@@ -28,3 +28,7 @@ Route::get('/register', [RegisterController::class, 'index']);
 Route::get('/serie', [SerieController::class, 'index']);
 Route::get('/profile', [ProfileController::class, 'index']);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
