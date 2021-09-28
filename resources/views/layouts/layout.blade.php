@@ -21,9 +21,17 @@
 <body class="bg-dark">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <!--Logo-->
-        <a href="#" class="navbar-brand">
+        <a href="{{ url('/') }}" class="navbar-brand">
             <img src="images/logo1.png" height="90px" alt="logo"/>
         </a>
+
+        @guest
+            @if (Route::has('register'))
+                <h4 class="text-light">Anime List</h4>
+            @endif
+            @else
+            <h4 class="text-light">{{ Auth::user()->username }}'s Anime List</h4>
+        @endguest
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,31 +39,31 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-right" href="/#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+                    <a class="nav-link text-right" href="{{ url('/') }}">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-right" href="#">Series</a>
+                <li class="nav-item {{ Request::is('series') ? 'active' : '' }}">
+                    <a class="nav-link text-right" href="{{ url('series') }}">Series</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-right" href="#">About</a>
+                <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
+                    <a class="nav-link text-right" href="{{ url('about') }}">About</a>
                 </li>
 
                 @guest
                     @if (Route::has('login'))
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
                             <a class="nav-link text-right" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
 
                     @if (Route::has('register'))
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::is('register') ? 'active' : '' }}">
                             <a class="nav-link text-right " href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
-                    <li class="nav-item">
-                        <a class="nav-link text-right" href="#">{{ Auth::user()->username }}</a>
+                    <li class="nav-item {{ Request::is('profile') ? 'active' : '' }}">
+                        <a class="nav-link text-right" href="{{ url('profile') }}">{{ Auth::user()->username }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-right" href="{{ route('logout') }}"
