@@ -6,16 +6,22 @@
                 <div class="m-4 m-lg-5">
                     <h1 class="display-5 fw-bold">Welcome to your Anime List!</h1>
                     <p class="fs-4">Bootstrap utility classes are used to create this jumbotron since the old component has been removed from the framework. Why create custom CSS when you can use utilities?</p>
-{{--                    If not Loged in than...--}}
-                    <a class="btn btn-primary btn-lg" href="#!">Register/Login</a>
-{{--                    Otherwise remove the button--}}
+                    @guest
+                        @if (Route::has('register'))
+                            <a class="btn btn-primary btn-lg" href="{{ route('register') }}">Register/Login</a>
+                        @endif
+                    @else
+                    @endguest
                 </div>
             </div>
         </div>
     </header>
 @endsection
 @section('content')
-    @foreach($animes as $anime)
-        <li>{{$anime['title']}}</li>
-    @endforeach
+{{--    TODO DETAIL PAGE with get and ID element--}}
+    <ul>
+        @foreach($animes as $anime)
+            <li>{{$anime['title']}}</li>
+        @endforeach
+    </ul>
 @endsection

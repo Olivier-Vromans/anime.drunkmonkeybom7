@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterSeriesTable extends Migration
+class CreateAnimeLanguageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AlterSeriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('series', function (Blueprint $table) {
+        Schema::create('anime_language', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('anime_id');
+            $table->foreign('anime_id')->references('id')->on('animes');
             $table->unsignedBigInteger('language_id');
-            $table->foreign('language_id')->references('id')->on('language');
+            $table->foreign('language_id')->references('id')->on('languages');
+
         });
     }
 
@@ -26,8 +30,6 @@ class AlterSeriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('series', function (Blueprint $table) {
-            $table->dropColumn('language_id');
-        });
+        Schema::dropIfExists('anime_language');
     }
 }

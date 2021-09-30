@@ -15,10 +15,14 @@ class CommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->string('comment');
             $table->integer('comment_rating');
             $table->time('comment_date');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('anime_id');
+
+            $table->foreign('anime_id')->references('id')->on('animes');
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
     }

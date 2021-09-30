@@ -1,3 +1,6 @@
+<?php
+//    dd(Auth::user()->role) //show users
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -25,6 +28,7 @@
             <img src="images/logo1.png" height="90px" alt="logo"/>
         </a>
 
+{{--        TODO MAKE IT FLEXIBLE--}}
         @guest
             @if (Route::has('register'))
                 <h4 class="text-light">Anime List</h4>

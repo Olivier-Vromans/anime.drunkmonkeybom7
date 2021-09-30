@@ -12,15 +12,26 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    public function comments(){
+        return $this->hasMany(Comments::class);
+    }
+
+    public function favorite(){
+        return $this->hasMany(Favorite::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
     protected $fillable = [
+        'firstname',
+        'lastname',
         'username',
         'email',
         'password',
+        'favorites',
     ];
 
     /**

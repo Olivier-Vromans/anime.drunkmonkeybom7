@@ -16,7 +16,7 @@ class Controller extends BaseController
 
 
         //Get all Data from the Anime Model
-        $animes = Anime::all();
+        $animes = Anime::with('genre')->get();
         return view('welcome', compact('animes'));
     }
 }
