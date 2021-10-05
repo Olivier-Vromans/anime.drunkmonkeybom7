@@ -1,0 +1,121 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Nunito", sans-serif;
+}
+.body{
+    background-color: #131313;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*Card Container */
+.container{
+    position: relative;
+}
+#container {
+    display: grid;
+    /* kolommen each fr is a card */
+    grid-template-columns: 1fr 1fr 1fr;
+    /* rijen */
+    grid-auto-rows: max-content;
+    /* ruimte tussen rijen en kolommen */
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+}
+
+.container .card{
+    height: 450px;
+    width: 330px;
+    background-color: #232323;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+
+}
+.container .card::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #555555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: circle(160px at 85% 20%);
+    transition: ease-in-out 0.5s;
+}
+.container .card:hover:before{
+    clip-path: circle(190px at 50% 20%);
+}
+.container .card .image-box{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 66%;
+    transform: translateX(30%);
+    transition: ease-in-out 0.5s;
+}
+.container .card:hover .image-box{
+    transform: translateX(0%);
+}
+.container .card .image-box img{
+    width: 100%;
+}
+.container .card .content-box{
+    z-index: 11;
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    text-align: right;
+    width: 100%;
+    background-image: linear-gradient(to right,rgba(27, 26, 0, 0), rgba(19, 12, 41, 1));
+    transition: ease-in-out 0.5s;
+}
+.container .card:hover .content-box{
+    height: 150px;
+}
+.container .card .content-box h2{
+    color: white;
+    font-family: "Nunito", sans-serif;
+    padding-right: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 5%;
+    transition: ease-in-out 0.5s;
+}
+.container .card:hover .content-box h2{
+    margin-top: 0%;
+}
+.container .card .content-box .detail{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+    padding-right: 10px;
+    transform: translateY(50%);
+    transition: ease-in-out 0.5s;
+    opacity: 0;
+    visibility: hidden;
+}
+.container .card:hover .content-box .detail{
+    transform: translateY(0%);
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.3s;
+}
+
+@media (max-width: 900px) {
+    #container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 750px) {
+    #container {
+        grid-template-columns: 1fr;
+    }
+}
+
