@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Anime List</title>
+    <link rel="icon" href="images/logo1.png">
 </head>
 <body class="bg-dark">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -27,15 +28,15 @@
         <a href="{{ url('/') }}" class="navbar-brand">
             <img src="images/logo1.png" height="90px" alt="logo"/>
         </a>
-
-{{--        TODO MAKE IT FLEXIBLE--}}
-        @guest
-            @if (Route::has('register'))
-                <h4 class="text-light">Anime List</h4>
-            @endif
-            @else
-            <h4 class="text-light">{{ Auth::user()->username }}'s Anime List</h4>
-        @endguest
+        <div class="nav-text">
+            @guest
+                @if (Route::has('register'))
+                    <h4 class="text-light">Anime List</h4>
+                @endif
+                @else
+                <h4 class="text-light">{{ Auth::user()->username }}'s Anime List</h4>
+            @endguest
+        </div>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -97,6 +98,53 @@
     </div>
     <div>
         @yield('footer')
+        <footer class="bg-dark text-center text-white">
+            <!-- Grid container -->
+            <div class="container p-4 pb-0">
+                <!-- Section: Social media -->
+                <section class="mb-4">
+                    <!-- Facebook -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/olivier.vromans/" role="button"
+                    ><i class="fab fa-facebook-f"></i
+                        ></a>
+
+                    <!-- Twitter -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/Olivier2001" role="button"
+                    ><i class="fab fa-twitter"></i
+                        ></a>
+
+                    <!-- Linkedin -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/olivier-vromans-57908417a/" role="button"
+                    ><i class="fab fa-linkedin-in"></i
+                        ></a>
+
+
+                    <!-- Instagram -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/olivier_vromans/" role="button"
+                    ><i class="fab fa-instagram"></i
+                        ></a>
+
+                    <!-- Twitch -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://www.twitch.tv/drunkmonkeybom7" role="button"
+                    ><i class="fab fa-twitch"></i
+                        ></a>
+
+                    <!-- Github -->
+                    <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://github.com/Olivier-Vromans" role="button"
+                    ><i class="fab fa-github"></i
+                        ></a>
+                </section>
+                <!-- Section: Social media -->
+            </div>
+            <!-- Grid container -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2020 Copyright:
+                <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
