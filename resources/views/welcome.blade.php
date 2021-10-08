@@ -1,3 +1,9 @@
+@php
+    /**
+    * @var Anime $anime
+    * use App\Models\Anime;
+    **/
+@endphp
 @extends('layouts.layout')
 @section('head')
     <link rel="stylesheet" href="css/home.css">
@@ -29,13 +35,13 @@
                         <a href="{{ route('anime.show', $anime) }}">
                             <div class="card" id="card">
                                 <div class="image-box">
-                                    <img src="{{ asset("/storage/images/".$anime['image']) }}" alt="" height="300px">
+                                    <img src="{{ asset("/storage/images/".$anime->image_card) }}" alt="" height="300px">
                                 </div>
                                 <div class="content-box">
-                                    <h2>{{$anime['title']}}</h2>
+                                    <h2>{{$anime->title}}</h2>
                                     <div class="detail">
-                                        <span>{{$anime['episodes']}} episodes</span>
-                                        <span>{{$anime['premiered']}}</span>
+                                        <span>{{$anime->episodes}} episodes</span>
+                                        <span>{{$anime->premiered}}</span>
                                     </div>
                                 </div>
                             </div>

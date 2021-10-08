@@ -30,9 +30,10 @@ class Controller extends BaseController
             $animeUrl = $response->collect();
             array_push($anime, $animeUrl);
         };
+//        dd($anime);
 
         //Get all Data from the Anime Model
-        $animes = Anime::with('genre')->get();
+        $animes = Anime::all();
         return view('welcome', compact('animes', 'animesTop'));
     }
 

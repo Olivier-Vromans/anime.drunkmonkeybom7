@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,9 @@ Route::get('/', [Controller::class, 'index']);
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/profile', [ProfileController::class, 'index']);
 Route::get('/anime', [AnimeController::class, 'index']);
+
 //Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
 Route::resource('anime', AnimeController::class);
+Route::resource('admin', CRUDController::class);
 
 Auth::routes();

@@ -23,9 +23,12 @@ class CreateAnimeTable extends Migration
             $table->integer('episodes')->nullable();
             $table->integer('users_favorite')->nullable();
             $table->integer('rating')->nullable();
-            $table->integer('year')->nullable();
+            $table->string('year')->nullable();
             $table->integer('comment_id')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image_card')->nullable();
+            $table->string('image_show')->nullable();
+            $table->integer('status')->default(1);
+
         });
     }
 

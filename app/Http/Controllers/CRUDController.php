@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\CRUD;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AnimeController extends Controller
+class CRUDController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Application|Factory|View|Response
+     *
      */
     public function index()
     {
-        $anime = Anime::all();
+        $animes = Anime::all();
 
-        return view('anime', compact('anime'));
+        return view('admin/overview', compact('animes'));
     }
 
     /**
@@ -36,7 +38,7 @@ class AnimeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return Response
      */
     public function store(Request $request)
@@ -47,23 +49,21 @@ class AnimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param Anime $anime
-     * @return Application|Factory|View|Response
+     * @param  \App\Models\CRUD  $cRUD
+     * @return Response
      */
-    public function show(Request $request, Anime $anime)
+    public function show(CRUD $cRUD)
     {
-        return view('anime', compact('anime'));
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\CRUD  $cRUD
      * @return Response
      */
-    public function edit($id)
+    public function edit(CRUD $cRUD)
     {
         //
     }
@@ -71,11 +71,11 @@ class AnimeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\CRUD  $cRUD
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CRUD $cRUD)
     {
         //
     }
@@ -83,10 +83,10 @@ class AnimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\CRUD  $cRUD
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(CRUD $cRUD)
     {
         //
     }
