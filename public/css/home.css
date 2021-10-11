@@ -109,6 +109,31 @@
     transition-delay: 0.3s;
 }
 
+
+/*Table*/
+table.dataTable tbody tr {
+    background-color: #4b545c;
+}
+select{
+    color: #ffffff;
+}
+input{
+    color: #ffffff;
+}
+table .btnedit {
+    color: #e9edee;
+    cursor: pointer;
+}
+table .btntrash{
+    color: #ff0000;
+    cursor: pointer;
+}
+label{
+    color: #ffffff;
+}
+.dataTables_wrapper div.dataTables_info{
+    color: #ffffff;
+}
 @media (max-width: 1150px) {
     #container {
         grid-template-columns: 1fr 1fr;
