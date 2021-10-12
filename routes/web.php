@@ -25,10 +25,13 @@ Route::get('/', [Controller::class, 'index']);
 //SubUrl inside the websites
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/profile', [ProfileController::class, 'index']);
-Route::get('/anime', [AnimeController::class, 'index']);
+Route::get('/anime/admin', [AnimeController::class, 'admin']);
 
-//Route::get('/anime/{id}', [AnimeController::class, 'show'])->name('anime.show');
+Route::get('/anime/addAnime', [AnimeController::class, 'create']);
+Route::post('/anime/addAnime', [AnimeController::class, 'store']);
+
 Route::resource('anime', AnimeController::class);
-Route::resource('admin', CRUDController::class);
+//Route::resource('admin', CRUDController::class);
+//Route::get('changeStatus', [CRUDController::class, 'changeStatus']);
 
 Auth::routes();

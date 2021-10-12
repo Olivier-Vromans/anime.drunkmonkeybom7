@@ -16,7 +16,7 @@
     <script src="https://kit.fontawesome.com/587a279f36.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href=" {{ url('/css/app.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Anime List</title>
@@ -53,8 +53,8 @@
                 <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('about') }}">About</a>
                 </li>
-                <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
-                    <a class="nav-link text-right" href="{{ url('admin') }}">Admin</a>
+                <li class="nav-item {{ Request::is('anime/admin') ? 'active' : '' }}">
+                    <a class="nav-link text-right" href="{{ url('anime/admin') }}">Admin</a>
                 </li>
 
                 @guest

@@ -45,9 +45,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Anime whereUsersFavorite($value)
  * @mixin \Eloquent
  */
+
 class Anime extends Model
 {
     use HasFactory;
+
+    protected $table = 'animes';
+    protected $fillable = [
+
+    ];
 
     public function favorites(){
         return $this->hasMany(Favorite::class);

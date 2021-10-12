@@ -1,0 +1,9 @@
+@extends('layouts.layout')
+@section('nav')
+@endsection
+<body>
+@section('content')
+@endsection
+@section('footer')
+@endsection
+</body>
