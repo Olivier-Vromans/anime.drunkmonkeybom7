@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\Genre;
+use App\Models\Language;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -42,7 +44,9 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        return view('admin/addAnime');
+        $genres = Genre::all();
+        $languages = Language::all();
+        return view('admin/addAnime', compact('genres', 'languages'));
     }
 
     /**
