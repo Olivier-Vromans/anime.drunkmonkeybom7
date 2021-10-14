@@ -16,7 +16,7 @@ class CreateAnimeTable extends Migration
         Schema::create('animes', function (Blueprint $table){
             $table->id();
             $table->string('title', 255);
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('episodes')->nullable();
             $table->integer('users_favorite')->nullable();
             $table->integer('rating')->nullable();

@@ -24,14 +24,14 @@
                         <div class="form-group row">
                             <label for="title" class="col-sm-3 col-form-label">Title</label>
                             <div class="col-sm-9">
-                                <input type="text" id="title" name="title" class="form-control" placeholder="Anime Title" value="{{$anime->title}}">
+                                <input type="text" id="title" name="title" class="form-control" placeholder="Anime Title">
                             </div>
                         </div>
 {{--                        Description --}}
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-9">
-                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description" value=""></textarea>
+                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description"></textarea>
                             </div>
                         </div>
 {{--                        Genres--}}

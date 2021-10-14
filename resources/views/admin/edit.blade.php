@@ -1,7 +1,8 @@
 @php
-    use App\Models\Genre;
+    use App\Models\Anime;use App\Models\Genre;
     /**
     * @var Genre $genres
+    * @var Anime $anime
     *
     **/
 @endphp
@@ -10,6 +11,7 @@
 @endsection
 <body>
 @section('content')
+{{--    @dd($anime)--}}
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
             <div class="container">
@@ -25,14 +27,14 @@
                         <div class="form-group row">
                             <label for="title" class="col-sm-3 col-form-label">Title</label>
                             <div class="col-sm-9">
-                                <input type="text" id="title" name="title" class="form-control" placeholder="Anime Title">
+                                <input type="text" id="title" name="title" value="{{$anime->title}}" class="form-control" placeholder="Anime Title">
                             </div>
                         </div>
 {{--                        Description --}}
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-9">
-                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description"></textarea>
+                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description">{{$anime->description}}</textarea>
                             </div>
                         </div>
 {{--                        Genres--}}
@@ -40,7 +42,13 @@
                             <label for="genre_id" class="col-sm-3 col-form-label">Genres</label>
                             <div class="col-sm-9">
                                 @foreach($genres as $genre)
-                                    <input type="checkbox" id="genre_id" name="genre_id[]" value="{{ $genre->id }}"> {{$genre->genre_name }}</input>
+                                    <label>
+                                        <input id="genre_id" name="genre_id[]" type="checkbox" value="{{ $genre->id }}"
+                                        @foreach($animeGenres as $animeGenre)
+                                            {{ ($animeGenre->id == ($genre->id)) ? 'checked' : '' }}
+                                        @endforeach
+                                        <span> {{ $genre->genre_name }}</span>
+                                    </label>
                                 @endforeach
                             </div>
                         </div>
@@ -48,14 +56,14 @@
                         <div class="form-group row">
                             <label for="episodes" class="col-sm-3 col-form-label">Episodes</label>
                             <div class="col-sm-5">
-                                <input type="number" id="episodes" name="episodes" class="form-control"  placeholder="Anime Episodes" min="1">
+                                <input type="number" id="episodes" name="episodes" value="{{$anime->episodes}}" class="form-control"  placeholder="Anime Episodes" min="1">
                             </div>
                         </div>
 {{--                        Rating--}}
                         <div class="form-group row">
                             <label for="rating" class="col-sm-3 col-form-label">Rating</label>
                             <div class="col-sm-5">
-                                <input type="number" id="rating" name="rating" class="form-control"  placeholder="Anime Rating" min="0" max="10" step="0.01">
+                                <input type="number" id="rating" name="rating" value="{{$anime->rating}}" class="form-control"  placeholder="Anime Rating" min="0" max="10" step="0.01">
                             </div>
                         </div>
 {{--                        Year--}}
@@ -85,7 +93,7 @@
                         <div class="form-group row">
                             <label for="image_show" class="col-sm-3 col-form-label">Image Show</label>
                             <div class="col-sm-9">
-                                <input type="file" id="image_show" name="image_show" class="form-control-file" >
+                                <input type="file" id="image_show" name="image_show" class="form-control-file">
                             </div>
                         </div>
 {{--                        Status--}}

@@ -66,8 +66,8 @@ class AnimeController extends Controller
         $anime->image_show = $request->input('image_show');
 
         $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-        $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
         $anime->image_card = str_replace('images/', '', $anime->image_card);
+        $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
         $anime->image_show = str_replace('images/', '', $anime->image_show);
 
         $anime->status = $request->input('status');
@@ -98,10 +98,12 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
+        $animeGenres =  $anime->genres()->get();
         $anime = Anime::find($anime->id);
         $genres = Genre::all();
+
 //        dd($anime);
-        return view('admin/edit', compact('anime', 'genres'));
+        return view('admin/edit', compact('anime', 'genres', 'animeGenres'));
     }
 
     /**
@@ -115,16 +117,25 @@ class AnimeController extends Controller
     {
         $anime = Anime::find($anime->id);
 
+        //TODO IF NOTHING CHANGES KEEP DATA
         $anime->title = $request->input('title');
         $anime->description = $request->input('description');
         $anime->episodes = $request->input('episodes');
         $anime->rating = $request->input('rating');
         $anime->year = $request->input('season') . " " . $request->input('year');
-        $anime->image_card = $request->input('image_card');
-        $anime->image_show = $request->input('image_show');
 
+        if (!$request->file('image_card') == ""){
+            $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
+            $anime->image_card = str_replace('images/', '', $anime->image_card);
+        }
+        if (!$request->file('image_show') == ""){
+            $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
+            $anime->image_show = str_replace('images/', '', $anime->image_show);
+        }
         $anime->save();
-        return redirect()->back()->with('status', "Anime Updated");
+        $anime->genres()->detach();
+        $anime->genres()->attach($request->input('genre_id'));
+        return redirect()->route('admin')->with('status', "Anime Updated");
     }
 
     /**
