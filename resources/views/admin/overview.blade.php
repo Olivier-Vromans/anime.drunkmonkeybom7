@@ -1,7 +1,8 @@
 @php
-    use App\Models\Anime;
+    use App\Models\Anime;use App\Models\Genre;
     /**
     * @var Anime $anime
+    * @var Genre $genre
     *
     **/
 @endphp
@@ -35,8 +36,11 @@
 @section('content')
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
+            @if(session('status'))
+                <h4 class="alert alert-success">{{ session('status') }}</h4>
+            @endif
             <div class="create text-left text-decoration-none">
-                <a href="{{ url("anime/addAnime") }}">Add new Anime </a>
+                <a href="{{ route('anime.create') }}">Add new Anime </a>
             </div>
                 <div class="card-header">
                     <h1>Overview for all Animes</h1>
@@ -51,9 +55,7 @@
                         <th>Description</th>
                         <th>Episodes</th>
                         <th>Rating</th>
-                        <th>Genre_id</th>
-                        <th>Language_id</th>
-                        <th>User_favorite</th>
+                        <th>Genres</th>
                         <th>Year</th>
                         <th>Image_Card</th>
                         <th>Image_Show</th>
@@ -70,17 +72,27 @@
                             <td data-id="{{ $anime->id }}">{{ $anime->description }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->episodes }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->rating }}</td>
-                            <td data-id="{{ $anime->id }}">{{ $anime->genre_id }}</td>
-                            <td data-id="{{ $anime->id }}">{{ $anime->language_id }}</td>
-                            <td data-id="{{ $anime->id }}">{{ $anime->user_favorite }}</td>
+                            <td data-id="{{ $anime->id }}">
+                                @foreach($anime->genres as $genre)
+                                {{ $genre->genre_name }}
+                                @endforeach
+                            </td>
                             <td data-id="{{ $anime->id }}">{{ $anime->year }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->image_card }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->image_show }}</td>
                             <td data-id="{{ $anime->id }}">
-                                <input data-id="{{ $anime->id }}" class="toggle-class" type="checkbox" data-onstyle="succes" data-off="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" {{$anime->status ? 'checked' : ''}}>
+                                <label>
+                                    <input data-id="{{ $anime->id }}" class="toggle-class" type="checkbox" data-onstyle="succes" data-off="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" {{$anime->status ? 'checked' : ''}}>
+                                </label>
                             </td>
-                            <td data-id="{{ $anime->id }}"><a href="{{ url("") }}"><i class="fas fa-edit btnedit" id="edit" aria-hidden="true"></i></a></td>
-                            <td data-id="{{ $anime->id }}"><a href="{{ url("") }}"><i class="fas fa-trash btntrash" id="delete" aria-hidden="true"></i></a></td>
+                            <td data-id="{{ $anime->id }}"><a href="{{ route('anime.edit', $anime) }}"><i class="fas fa-edit btnedit" id="edit" aria-hidden="true"></i></a></td>
+                            <td data-id="{{ $anime->id }}">
+                                <form action="{{route('anime.destroy', $anime)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="fas fa-trash btntrash" id="delete" aria-hidden="true"></button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

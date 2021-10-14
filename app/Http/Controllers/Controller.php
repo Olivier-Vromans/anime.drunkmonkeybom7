@@ -27,6 +27,7 @@ class Controller extends BaseController
         $animesTop = $response->collect('top')->take(3);
 //        dd($animesTop);
 
+//      Anime API
         foreach($animesTop as $animeTop){
             $url = 'https://api.jikan.moe/v3/anime/' . $animeTop['mal_id'];
             $response = Http::get($url);
@@ -35,13 +36,12 @@ class Controller extends BaseController
         };
 //        dd($anime);
 
+//      Genre API
+        $urlGenre = HTTP::get('https://api.jikan.moe/v4/genres/anime');
+        $genres = $urlGenre->collect('data')->unique('mal_id');
 
-    $urlGenre = HTTP::get('https://api.jikan.moe/v4/genres/anime');
-    $genres = $urlGenre->collect('data')->unique('mal_id');
-
-    dd($genres);
+//       dd($genres);
 
         return view('welcome', compact('animes', 'animesTop'));
     }
-
 }

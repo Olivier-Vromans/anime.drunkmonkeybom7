@@ -11,6 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/587a279f36.js" crossorigin="anonymous"></script>

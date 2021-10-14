@@ -17,9 +17,6 @@ class CreateAnimeTable extends Migration
             $table->id();
             $table->string('title', 255);
             $table->string('description')->nullable();
-            $table->integer('genre_id')->nullable();
-            $table->integer('language_id')->nullable();
-            $table->integer('seasons')->nullable();
             $table->integer('episodes')->nullable();
             $table->integer('users_favorite')->nullable();
             $table->integer('rating')->nullable();

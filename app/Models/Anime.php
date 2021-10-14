@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $title
  * @property string|null $description
- * @property int|null $genre_id
- * @property int|null $language_id
  * @property int|null $seasons
  * @property int|null $episodes
  * @property int|null $users_favorite
@@ -26,8 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $favorites_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Genre[] $genre
  * @property-read int|null $genre_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[] $languages
- * @property-read int|null $languages_count
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Anime query()
@@ -51,20 +47,14 @@ class Anime extends Model
     use HasFactory;
 
     protected $table = 'animes';
-    protected $fillable = [
-
-    ];
+    public $timestamps = false;
 
     public function favorites(){
         return $this->hasMany(Favorite::class);
     }
 
-    public function genre(){
+    public function genres(){
         return $this->belongsToMany(Genre::class);
-    }
-
-    public function languages(){
-        return $this->hasMany(Language::class);
     }
 
     public function comments(){

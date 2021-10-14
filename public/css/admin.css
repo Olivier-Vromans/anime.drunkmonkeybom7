@@ -22,3 +22,7 @@ label{
 .dataTables_wrapper div.dataTables_info{
     color: #ffffff;
 }
+.dataTables_length,.dataTables_filter {
+    margin-left: 10px;
+    float: right;
+}

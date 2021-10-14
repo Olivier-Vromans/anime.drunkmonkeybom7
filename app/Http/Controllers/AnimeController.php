@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\Genre;
-use App\Models\Language;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,9 +21,9 @@ class AnimeController extends Controller
     public function index()
     {
         //Is as SELECT * From anime
-        $anime = Anime::all();
-
-        return view('anime', compact('anime'));
+        $animes = Anime::all();
+        $genres = Genre::all();
+        return view('anime', compact('animes', 'genres'));
     }
 
     /**
@@ -34,7 +33,8 @@ class AnimeController extends Controller
     public function admin(){
 
         $animes = Anime::all();
-        return view('admin/overview', compact('animes'));
+        $genres = Genre::all();
+        return view('admin/overview', compact('animes', 'genres'));
     }
 
     /**
@@ -45,32 +45,35 @@ class AnimeController extends Controller
     public function create()
     {
         $genres = Genre::all();
-        $languages = Language::all();
-        return view('admin/addAnime', compact('genres', 'languages'));
+        return view('admin/addAnime', compact('genres'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
         $anime = new Anime;
         $anime->title = $request->input('title');
         $anime->description = $request->input('description');
-        $anime->genre_id = $request->input('genre_id');
-        $anime->language_id = $request->input('language_id');
-        $anime->seasons = $request->input('seasons');
         $anime->episodes = $request->input('episodes');
-        $anime->users_favorite = $request->input('users_favorite');
         $anime->rating = $request->input('rating');
-        $anime->year = $request->input('year');
-        $anime->comment_id = $request->input('comment_id');
+        $anime->year = $request->input('season') . " " . $request->input('year');
         $anime->image_card = $request->input('image_card');
         $anime->image_show = $request->input('image_show');
+
+        $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
+        $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
+        $anime->image_card = str_replace('images/', '', $anime->image_card);
+        $anime->image_show = str_replace('images/', '', $anime->image_show);
+
         $anime->status = $request->input('status');
+        $anime->save();
+        $anime->genres()->attach($request->input('genre_id'));
+        return redirect()->route('admin')->with('status', 'Anime Added Successfully');
 
     }
 
@@ -93,36 +96,32 @@ class AnimeController extends Controller
      *
      * @return Application|Factory|View|Response
      */
-    public function edit($id)
+    public function edit(Anime $anime)
     {
-        $anime = Anime::find($id);
-        return view('admin/edit', $id);
+        $anime = Anime::find($anime->id);
+        $genres = Genre::all();
+//        dd($anime);
+        return view('admin/edit', compact('anime', 'genres'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
+     * @param Anime $anime
      * @return RedirectResponse|Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Anime $anime)
     {
-        $anime = Anime::find($id);
+        $anime = Anime::find($anime->id);
 
         $anime->title = $request->input('title');
         $anime->description = $request->input('description');
-        $anime->genre_id = $request->input('title');
-        $anime->language_id = $request->input('title');
-        $anime->seasons = $request->input('title');
-        $anime->episodes = $request->input('title');
-        $anime->users_favorite = $request->input('title');
-        $anime->rating = $request->input('title');
-        $anime->year = $request->input('title');
-        $anime->comment_id = $request->input('title');
-        $anime->image_card = $request->input('title');
-        $anime->image_show = $request->input('title');
-        $anime->status = $request->input('title');
+        $anime->episodes = $request->input('episodes');
+        $anime->rating = $request->input('rating');
+        $anime->year = $request->input('season') . " " . $request->input('year');
+        $anime->image_card = $request->input('image_card');
+        $anime->image_show = $request->input('image_show');
 
         $anime->save();
         return redirect()->back()->with('status', "Anime Updated");
@@ -130,13 +129,12 @@ class AnimeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return RedirectResponse|Response
+     * @param Anime $anime
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Anime $anime)
     {
-        $anime = Anime::find($id);
+        $anime->genres()->detach();
         $anime->delete();
         return redirect()->back()->with('status', 'Anime Deleted');
     }
