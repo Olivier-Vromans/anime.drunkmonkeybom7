@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function Sodium\compare;
 
 class AnimeController extends Controller
 {
@@ -57,18 +58,58 @@ class AnimeController extends Controller
     public function store(Request $request)
     {
         $anime = new Anime;
-        $anime->title = $request->input('title');
-        $anime->description = $request->input('description');
-        $anime->episodes = $request->input('episodes');
-        $anime->rating = $request->input('rating');
-        $anime->year = $request->input('season') . " " . $request->input('year');
-        $anime->image_card = $request->input('image_card');
-        $anime->image_show = $request->input('image_show');
+        $animeGenres = $request->input('genre_id');
 
-        $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-        $anime->image_card = str_replace('images/', '', $anime->image_card);
-        $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
-        $anime->image_show = str_replace('images/', '', $anime->image_show);
+//        Check if Title has been filled other wise skip this part of the edit
+        if (!$request->input('title') == "") {
+            $anime->title = $request->input('title');
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime title must be filled in');
+        }
+
+//        Check if Description has been filled other wise skip this part of the edit
+        if (!$request->input('description') == "") {
+            $anime->description = $request->input('description');
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime description must be filled in');
+        }
+
+//        Check if Episodes has been filled other wise skip this part of the edit
+        if (!$request->input('episodes') == "") {
+            $anime->episodes = $request->input('episodes');
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime episodes must be filled in');
+        }
+
+//        Check if Rating has been filled other wise skip this part of the edit
+        if (!$request->input('rating') == "") {
+            $anime->rating = $request->input('rating');
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime rating must be filled in');
+        }
+
+//        Check if Season & Year has been filled other wise skip this part of the edit
+        if (!$request->input('season') == "" && !$request->input('year') == "" || $request->input('season') == "" || !$request->input('year') == "") {
+            $anime->year = $request->input('season'). " " . $request->input('year');
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime premiere season and year must be filled in');
+        }
+
+//        Check if Image_card has been added other wise skip this part of the edit
+        if (!$request->file('image_card') == ""){
+            $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
+            $anime->image_card = str_replace('images/', '', $anime->image_card);
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image card must be uploaded');
+        }
+//        Check if Image_show has been added other wise skip this part of the edit
+        if (!$request->file('image_show') == ""){
+            $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
+            $anime->image_show = str_replace('images/', '', $anime->image_show);
+        }else{
+            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image show must be uploaded');
+        }
+
 
         $anime->status = $request->input('status');
         $anime->save();

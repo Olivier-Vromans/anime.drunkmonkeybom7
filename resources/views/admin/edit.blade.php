@@ -72,9 +72,6 @@
                         <div class="form-group row">
                             <label for="year" class="col-sm-3 col-form-label">Year</label>
                             <div class="col col-sm-5">
-                                <?php
-                                $season = substr($anime->year, 0, -5)
-                                ?>
                                 <select  type="text" id="season" name="season" list="season-list" class="form-control">
                                     <option selected disabled>Premiere Season</option>
                                     <option value="Spring"
@@ -92,7 +89,7 @@
                                 </select>
                             </div>
                             <div class="col col-sm-4">
-                                <input type="number" id="year" name="year" class="form-control"  placeholder="Anime Year" min="1900" max="2900" value="{{substr($anime->year, -4)}}">
+                                <input type="number" id="year" name="year" value="{{substr($anime->year, -4)}}" class="form-control"  placeholder="Anime Year" min="1900" max="2900">
                             </div>
                         </div>
 {{--                        Image_Card--}}
@@ -102,7 +99,6 @@
                                 <input type="file" id="image_card" name="image_card" class="form-control-file">
                             </div>
                         </div>
-                        Image_Poster
                         <div class="form-group row">
                             <label for="image_show" class="col-sm-3 col-form-label">Image Show</label>
                             <div class="col-sm-9">
