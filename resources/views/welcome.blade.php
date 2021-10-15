@@ -48,10 +48,6 @@
                         </a>
                     </div>
                 @endforeach
-{{--                Works for top Upcoming--}}
-{{--                @foreach($animesTop as $anime)--}}
-{{--                        <li>{{$anime['title']}}</li>--}}
-{{--                @endforeach--}}
             </div>
     </div>
 @endsection
