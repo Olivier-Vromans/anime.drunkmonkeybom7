@@ -21,6 +21,7 @@
 {{--Fixings--}}
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <script src="https://cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
 
 {{--Bootstrap Toggle--}}
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" integrity="sha512-F636MAkMAhtTplahL9F6KmTfxTmYcAcjcCkyu0f0voT3N/6vzAuJ4Num55a0gEJ+hRLHhdz3vDvZpf6kqgEa5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>@endsection--}}
@@ -40,7 +41,7 @@
                 <h4 class="alert alert-success">{{ session('status') }}</h4>
             @endif
             <div class="create text-left text-decoration-none">
-                <a href="{{ route('anime.create') }}">Add new Anime </a>
+                <a href="{{ route('anime.create') }}" class="text-gray-200">+ Add new Anime </a>
             </div>
                 <div class="card-header">
                     <h1>Overview for all Animes</h1>

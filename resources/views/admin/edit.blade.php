@@ -11,12 +11,14 @@
 @endsection
 <body>
 @section('content')
-{{--    @dd($anime)--}}
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
             <div class="container">
                 @if(session('status'))
                     <h4 class="alert alert-success">{{ session('status') }}</h4>
+                @endif
+                @if(session('danger'))
+                    <h4 class="alert alert-danger">{{session('danger')}}</h4>
                 @endif
                 <form action="{{ route('anime.update', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
                     @csrf
@@ -70,16 +72,27 @@
                         <div class="form-group row">
                             <label for="year" class="col-sm-3 col-form-label">Year</label>
                             <div class="col col-sm-5">
+                                <?php
+                                $season = substr($anime->year, 0, -5)
+                                ?>
                                 <select  type="text" id="season" name="season" list="season-list" class="form-control">
                                     <option selected disabled>Premiere Season</option>
-                                    <option value="Spring">Spring</option>
-                                    <option value="Summer">Summer</option>
-                                    <option value="Fall">Fall</option>
-                                    <option value="Winter">Winter</option>
+                                    <option value="Spring"
+                                        {{ (substr($anime->year, 0, -5) == ("Spring")) ? 'selected' : '' }}
+                                    >Spring</option>
+                                    <option value="Summer"
+                                        {{ (substr($anime->year, 0, -5) == ("Summer")) ? 'selected' : '' }}
+                                    >Summer</option>
+                                    <option value="Fall"
+                                        {{ (substr($anime->year, 0, -5) == ("Fall")) ? 'selected' : '' }}
+                                    >Fall</option>
+                                    <option value="Winter"
+                                        {{ (substr($anime->year, 0, -5) == ("Winter")) ? 'selected' : '' }}
+                                    >Winter</option>
                                 </select>
                             </div>
                             <div class="col col-sm-4">
-                                <input type="number" id="year" name="year" class="form-control"  placeholder="Anime Year" min="1900" max="2900">
+                                <input type="number" id="year" name="year" class="form-control"  placeholder="Anime Year" min="1900" max="2900" value="{{substr($anime->year, -4)}}">
                             </div>
                         </div>
 {{--                        Image_Card--}}
