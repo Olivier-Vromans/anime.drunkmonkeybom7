@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,11 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $premiered
  * @property int|null $comment_id
  * @property string|null $image
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comments[] $comments
+ * @property-read Collection|Comments[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Favorite[] $favorites
+ * @property-read Collection|Favorite[] $favorites
  * @property-read int|null $favorites_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Genre[] $genre
+ * @property-read Collection|Genre[] $genre
  * @property-read int|null $genre_count
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newQuery()

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,10 +22,10 @@ class AnimeController extends Controller
      */
     public function index()
     {
-        //Is as SELECT * From anime
         $animes = Anime::all();
         $genres = Genre::all();
-        return view('anime', compact('animes', 'genres'));
+        $user = User::find(auth()->id());
+        return view('anime', compact('animes', 'genres', 'user'));
     }
 
     /**
@@ -32,10 +33,14 @@ class AnimeController extends Controller
      *
      */
     public function admin(){
-
-        $animes = Anime::all();
-        $genres = Genre::all();
-        return view('admin/overview', compact('animes', 'genres'));
+        if (auth()->user()->role === 1){
+            $animes = Anime::all();
+            $genres = Genre::all();
+            $user = User::find(auth()->id());
+            return view('admin/overview', compact('animes', 'genres', 'user'));
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -45,8 +50,14 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        $genres = Genre::all();
-        return view('admin/addAnime', compact('genres'));
+        return view('admin.addAnime')|);
+//        if (auth()->user()->role === 1){
+//        $genres = Genre::all();
+//        dd($genres);
+//        return view('admin/addAnime', compact('genres'));
+//        }else{
+//            return redirect('/');
+//        }
     }
 
     /**
@@ -57,65 +68,68 @@ class AnimeController extends Controller
      */
     public function store(Request $request)
     {
-        $anime = new Anime;
-        $animeGenres = $request->input('genre_id');
+        if (auth()->user()->role === 1){
+            $anime = new Anime;
+            $animeGenres = $request->input('genre_id');
 
-//        Check if Title has been filled other wise skip this part of the edit
-        if (!$request->input('title') == "") {
-            $anime->title = $request->input('title');
+            //        Check if Title has been filled other wise skip this part of the edit
+            if (!$request->input('title') == "") {
+                $anime->title = $request->input('title');
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime title must be filled in');
+            }
+
+            //        Check if Description has been filled other wise skip this part of the edit
+            if (!$request->input('description') == "") {
+                $anime->description = $request->input('description');
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime description must be filled in');
+            }
+
+            //        Check if Episodes has been filled other wise skip this part of the edit
+            if (!$request->input('episodes') == "") {
+                $anime->episodes = $request->input('episodes');
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime episodes must be filled in');
+            }
+
+            //        Check if Rating has been filled other wise skip this part of the edit
+            if (!$request->input('rating') == "") {
+                $anime->rating = $request->input('rating');
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime rating must be filled in');
+            }
+
+            //        Check if Season & Year has been filled other wise skip this part of the edit
+            if (!$request->input('season') == "" && !$request->input('year') == "" || $request->input('season') == "" || !$request->input('year') == "") {
+                $anime->year = $request->input('season'). " " . $request->input('year');
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime premiere season and year must be filled in');
+            }
+
+            //        Check if Image_card has been added other wise skip this part of the edit
+            if (!$request->file('image_card') == ""){
+                $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
+                $anime->image_card = str_replace('images/image_card', '', $anime->image_card);
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image card must be uploaded');
+            }
+            //        Check if Image_show has been added other wise skip this part of the edit
+            if (!$request->file('image_show') == ""){
+                $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
+                $anime->image_show = str_replace('images/image_show', '', $anime->image_show);
+            }else{
+                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image show must be uploaded');
+            }
+
+
+            $anime->status = $request->input('status');
+            $anime->save();
+            $anime->genres()->attach($request->input('genre_id'));
+            return redirect()->route('admin')->with('status', 'Anime Added Successfully');
         }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime title must be filled in');
+            return redirect('/');
         }
-
-//        Check if Description has been filled other wise skip this part of the edit
-        if (!$request->input('description') == "") {
-            $anime->description = $request->input('description');
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime description must be filled in');
-        }
-
-//        Check if Episodes has been filled other wise skip this part of the edit
-        if (!$request->input('episodes') == "") {
-            $anime->episodes = $request->input('episodes');
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime episodes must be filled in');
-        }
-
-//        Check if Rating has been filled other wise skip this part of the edit
-        if (!$request->input('rating') == "") {
-            $anime->rating = $request->input('rating');
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime rating must be filled in');
-        }
-
-//        Check if Season & Year has been filled other wise skip this part of the edit
-        if (!$request->input('season') == "" && !$request->input('year') == "" || $request->input('season') == "" || !$request->input('year') == "") {
-            $anime->year = $request->input('season'). " " . $request->input('year');
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime premiere season and year must be filled in');
-        }
-
-//        Check if Image_card has been added other wise skip this part of the edit
-        if (!$request->file('image_card') == ""){
-            $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-            $anime->image_card = str_replace('images/', '', $anime->image_card);
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image card must be uploaded');
-        }
-//        Check if Image_show has been added other wise skip this part of the edit
-        if (!$request->file('image_show') == ""){
-            $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
-            $anime->image_show = str_replace('images/', '', $anime->image_show);
-        }else{
-            return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image show must be uploaded');
-        }
-
-
-        $anime->status = $request->input('status');
-        $anime->save();
-        $anime->genres()->attach($request->input('genre_id'));
-        return redirect()->route('admin')->with('status', 'Anime Added Successfully');
-
     }
 
     /**
@@ -127,8 +141,23 @@ class AnimeController extends Controller
      */
     public function show(Request $request, Anime $anime)
     {
-        return view('anime', compact('anime'));
+        $genres = Genre::all();
 
+        return view('detail', compact('anime', 'genres'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Genre $genre
+     * @return Application|Factory|View|Response
+     */
+    public function showGenre(Request $request, Genre $genre)
+    {
+        $genres = Genre::all();
+
+        return view('anime', compact('anime', 'genres'));
     }
 
     /**
@@ -139,13 +168,16 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
-//        dd(substr($anime->year, -4) . "\n" . substr($anime->year, 0, -5));
-        $animeGenres =  $anime->genres()->get();
-        $anime = Anime::find($anime->id);
-        $genres = Genre::all();
+        if (auth()->user()->role === 1){
+            $animeGenres =  $anime->genres()->get();
+            $anime = Anime::find($anime->id);
+            $genres = Genre::all();
+            $user = User::find(auth()->id());
 
-//        dd($anime);
-        return view('admin/edit', compact('anime', 'genres', 'animeGenres'));
+            return view('admin/edit', compact('anime', 'genres', 'animeGenres', 'user'));
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -157,59 +189,63 @@ class AnimeController extends Controller
      */
     public function update(Request $request, Anime $anime)
     {
-        $anime = Anime::find($anime->id);
+        if (auth()->user()->role === 1){
+            $anime = Anime::find($anime->id);
 
-//        Check if Title has been filled other wise skip this part of the edit
-        if (!$request->input('title') == "") {
-            $anime->title = $request->input('title');
-        }
+            //        Check if Title has been filled other wise skip this part of the edit
+            if (!$request->input('title') == "") {
+                $anime->title = $request->input('title');
+            }
 
-//        Check if Description has been filled other wise skip this part of the edit
-        if (!$request->input('description') == "") {
-            $anime->description = $request->input('description');
-        }
+            //        Check if Description has been filled other wise skip this part of the edit
+            if (!$request->input('description') == "") {
+                $anime->description = $request->input('description');
+            }
 
-//        Check if Episodes has been filled other wise skip this part of the edit
-        if (!$request->input('episodes') == "") {
-            $anime->episodes = $request->input('episodes');
-        }
+            //        Check if Episodes has been filled other wise skip this part of the edit
+            if (!$request->input('episodes') == "") {
+                $anime->episodes = $request->input('episodes');
+            }
 
-//        Check if Rating has been filled other wise skip this part of the edit
-        if (!$request->input('rating') == "") {
-            $anime->rating = $request->input('rating');
-        }
+            //        Check if Rating has been filled other wise skip this part of the edit
+            if (!$request->input('rating') == "") {
+                $anime->rating = $request->input('rating');
+            }
 
-//        Check if Season & Year has been filled other wise skip this part of the edit
-        if (!$request->input('season') == "" && !$request->input('year') == "") {
-            $anime->year = $request->input('season'). " " . $request->input('year');
-        }
-//        Check if Season has been filled other wise skip this part of the edit
-        elseif (!$request->input('season') == "" ) {
-            $anime->year = $request->input('season'). " " . substr($anime->year, -4);
-        }
-//        Check if Year has been filled other wise skip this part of the edit
-        elseif (!$request->input('year') == ""){
-            $anime->year = substr($anime->year, 0, -5) . " " . $request->input('year');
-        }
+            //        Check if Season & Year has been filled other wise skip this part of the edit
+            if (!$request->input('season') == "" && !$request->input('year') == "") {
+                $anime->year = $request->input('season'). " " . $request->input('year');
+            }
+            //        Check if Season has been filled other wise skip this part of the edit
+            elseif (!$request->input('season') == "" ) {
+                $anime->year = $request->input('season'). " " . substr($anime->year, -4);
+            }
+            //        Check if Year has been filled other wise skip this part of the edit
+            elseif (!$request->input('year') == ""){
+                $anime->year = substr($anime->year, 0, -5) . " " . $request->input('year');
+            }
 
-//        Check if Image_card has been added other wise skip this part of the edit
-        if (!$request->file('image_card') == ""){
-            $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-            $anime->image_card = str_replace('images/', '', $anime->image_card);
+            //        Check if Image_card has been added other wise skip this part of the edit
+            if (!$request->file('image_card') == ""){
+                $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
+                $anime->image_card = str_replace('images/image_card', '', $anime->image_card);
+            }
+            //        Check if Image_show has been added other wise skip this part of the edit
+            if (!$request->file('image_show') == ""){
+                $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
+                $anime->image_show = str_replace('images/image_show', '', $anime->image_show);
+            }
+            //        save data
+            $anime->save();
+            //        Detach past relations with genre
+            $anime->genres()->detach();
+            //        Attach new relations with genre
+            $anime->genres()->attach($request->input('genre_id'));
+            //        Redirect back to admin with status
+            return redirect()->route('admin')->with('status', "Anime Updated");
+        }else{
+            return redirect('/');
         }
-//        Check if Image_show has been added other wise skip this part of the edit
-        if (!$request->file('image_show') == ""){
-            $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
-            $anime->image_show = str_replace('images/', '', $anime->image_show);
-        }
-//        save data
-        $anime->save();
-//        Detach past relations with genre
-        $anime->genres()->detach();
-//        Attach new relations with genre
-        $anime->genres()->attach($request->input('genre_id'));
-//        Redirect back to admin with status
-        return redirect()->route('admin')->with('status', "Anime Updated");
     }
 
     /**
@@ -219,8 +255,13 @@ class AnimeController extends Controller
      */
     public function destroy(Anime $anime)
     {
-        $anime->genres()->detach();
-        $anime->delete();
-        return redirect()->back()->with('status', 'Anime Deleted');
+        if (auth()->user()->role === 1){
+            $anime->genres()->detach();
+            $anime->delete();
+            return redirect()->back()->with('status', 'Anime Deleted');
+        }else{
+            return redirect('/');
+        }
+
     }
 }

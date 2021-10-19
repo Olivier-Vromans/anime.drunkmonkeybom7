@@ -1,4 +1,3 @@
-@dd("Hello World")
 @php
     use App\Models\Anime;use App\Models\Genre;
     /**
@@ -21,85 +20,79 @@
                 @if(session('danger'))
                     <h4 class="alert alert-danger">{{session('danger')}}</h4>
                 @endif
-                <form action="{{ url('anime/addAnime')  }}" method="post" class="text-left" enctype="multipart/form-data">
+                <form action="{{ route('anime.update', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
                     @csrf
-{{--                    @dd(session('anime.year'))--}}
+                    @method('PUT')
                     <fieldset>
-{{--                        @dd(session('anime'))--}}
-                        <legend>Add New Anime</legend>
-{{--                        Title--}}
+                        <legend>Edit Anime</legend>
+                        {{--                        Title--}}
                         <div class="form-group row">
                             <label for="title" class="col-sm-3 col-form-label">Title</label>
                             <div class="col-sm-9">
-                                <input type="text" id="title" name="title" value="{{session('anime.title')}}" class="form-control" placeholder="Anime Title">
+                                <input type="text" id="title" name="title" value="{{$anime->title}}" class="form-control" placeholder="Anime Title">
                             </div>
                         </div>
-{{--                        Description --}}
+                        {{--                        Description --}}
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-9">
-                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description">{{session('anime.description')}}</textarea>
+                                <textarea id="description" class="form-control" name="description"  cols="40" rows="5" placeholder="Anime Description">{{$anime->description}}</textarea>
                             </div>
                         </div>
-{{--                        Genres--}}
+                        {{--                        Genres--}}
                         <div class="form-group row">
                             <label for="genre_id" class="col-sm-3 col-form-label">Genres</label>
                             <div class="col-sm-9">
                                 @foreach($genres as $genre)
                                     <label>
                                         <input id="genre_id" name="genre_id[]" type="checkbox" value="{{ $genre->id }}"
-                                        @if(session('animeGenres') == null)
-                                        ''
-                                        @else
-                                            @foreach(session('animeGenres') as $animeGenre)
-                                                {{ ($animeGenre == ($genre->id)) ? 'checked' : '' }}
-                                            @endforeach
-                                        @endif
+                                        @foreach($animeGenres as $animeGenre)
+                                            {{ ($animeGenre->id == ($genre->id)) ? 'checked' : '' }}
+                                        @endforeach
                                         <span> {{ $genre->genre_name }}</span>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
-{{--                        Episodes--}}
+                        {{--                        Episodes--}}
                         <div class="form-group row">
                             <label for="episodes" class="col-sm-3 col-form-label">Episodes</label>
                             <div class="col-sm-5">
-                                <input type="number" id="episodes" name="episodes" value="{{session('anime.episodes')}}" class="form-control"  placeholder="Anime Episodes" min="1">
+                                <input type="number" id="episodes" name="episodes" value="{{$anime->episodes}}" class="form-control"  placeholder="Anime Episodes" min="1">
                             </div>
                         </div>
-{{--                        Rating--}}
+                        {{--                        Rating--}}
                         <div class="form-group row">
                             <label for="rating" class="col-sm-3 col-form-label">Rating</label>
                             <div class="col-sm-5">
-                                <input type="number" id="rating" name="rating" value="{{session('anime.rating')}}" class="form-control"  placeholder="Anime Rating" min="0" max="10" step="0.01">
+                                <input type="number" id="rating" name="rating" value="{{$anime->rating}}" class="form-control"  placeholder="Anime Rating" min="0" max="10" step="0.01">
                             </div>
                         </div>
-{{--                        Year--}}
-{{--                        @dd(session('anime.year'))--}}
+                        {{--                        Year--}}
                         <div class="form-group row">
                             <label for="year" class="col-sm-3 col-form-label">Year</label>
                             <div class="col col-sm-5">
                                 <select  type="text" id="season" name="season" list="season-list" class="form-control">
                                     <option selected disabled>Premiere Season</option>
                                     <option value="Spring"
-                                        {{ (substr(session('anime.year'), 0, -5) == ("Spring")) ? 'selected' : '' }}
+                                        {{ (substr($anime->year, 0, -5) == ("Spring")) ? 'selected' : '' }}
                                     >Spring</option>
                                     <option value="Summer"
-                                        {{ (substr(session('anime.year'), 0, -5) == ("Summer")) ? 'selected' : '' }}
+                                        {{ (substr($anime->year, 0, -5) == ("Summer")) ? 'selected' : '' }}
                                     >Summer</option>
                                     <option value="Fall"
-                                        {{ (substr(session('anime.year'), 0, -5) == ("Fall")) ? 'selected' : '' }}
+                                        {{ (substr($anime->year, 0, -5) == ("Fall")) ? 'selected' : '' }}
                                     >Fall</option>
                                     <option value="Winter"
-                                        {{ (substr(session('anime.year'), 0, -5) == ("Winter")) ? 'selected' : '' }}
+                                        {{ (substr($anime->year, 0, -5) == ("Winter")) ? 'selected' : '' }}
                                     >Winter</option>
                                 </select>
                             </div>
                             <div class="col col-sm-4">
-                                <input type="number" id="year" name="year" value="{{substr(session('anime.year'), -4)}}" class="form-control"  placeholder="Anime Year" min="1900" max="2900">
+                                <input type="number" id="year" name="year" value="{{substr($anime->year, -4)}}" class="form-control"  placeholder="Anime Year" min="1900" max="2900">
                             </div>
                         </div>
-{{--                        Image_Card--}}
+                        {{--                        Image_Card--}}
                         <div class="form-group row">
                             <label for="image_card" class="col-sm-3 col-form-label">Image Card</label>
                             <div class="col-sm-9">
@@ -109,12 +102,12 @@
                         <div class="form-group row">
                             <label for="image_show" class="col-sm-3 col-form-label">Image Show</label>
                             <div class="col-sm-9">
-                                <input type="file" id="image_show" name="image_show" class="form-control-file" >
+                                <input type="file" id="image_show" name="image_show" class="form-control-file">
                             </div>
                         </div>
-{{--                        Status--}}
+                        {{--                        Status--}}
                         <div class="form-group row">
-{{--                        <label for="status" class="col-sm-3 col-form-label">Status</label>--}}
+                            {{--                        <label for="status" class="col-sm-3 col-form-label">Status</label>--}}
                             <div class="col-sm-9">
                                 <input type="hidden" id="image_show" name="status" class="form-control" value="1">
                             </div>

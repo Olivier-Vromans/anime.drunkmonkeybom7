@@ -1,9 +1,15 @@
-<?php
-//    dd(Auth::user()->role) //show users
-?>
+@php
+    /**
+    * @var Anime $anime
+    * @var Genre $genre
+    * @var User $user
+    *
+    **/use App\Models\Genre;use App\Models\Anime;use App\Models\User;
+@endphp
 <!doctype html>
 <html lang="en">
 <head>
+{{--    @dd($user)--}}
     @yield('head')
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -49,31 +55,34 @@
                 <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('/') }}">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item {{ Request::is('series') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('anime') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('anime') }}">Anime</a>
                 </li>
                 <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('about') }}">About</a>
                 </li>
-                <li class="nav-item {{ Request::is('anime/admin') ? 'active' : '' }}">
-                    <a class="nav-link text-right" href="{{ url('anime/admin') }}">Admin</a>
-                </li>
-
                 @guest
+{{--                    Check if logged in else login tab--}}
                     @if (Route::has('login'))
                         <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
                             <a class="nav-link text-right" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
-
+{{--                    Check if Logged in else Register tab--}}
                     @if (Route::has('register'))
                         <li class="nav-item {{ Request::is('register') ? 'active' : '' }}">
                             <a class="nav-link text-right " href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
+                    @if(Auth::user()->role === 1)
+                        <li class="nav-item {{ Request::is('anime/admin') ? 'active' : '' }}">
+                            <a class="nav-link text-right" href="{{ url('anime/admin') }}">Admin</a>
+                        </li>
+                    @endif
+{{--                    Check if user logged in and than show profile and logout tab--}}
                     <li class="nav-item {{ Request::is('profile') ? 'active' : '' }}">
-                        <a class="nav-link text-right" href="{{ url('profile') }}">{{ Auth::user()->username }}</a>
+{{--                        <a class="nav-link text-right" href="{{ route('profile.show', $user) }}">{{ Auth::user()->username }}</a>--}}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-right" href="{{ route('logout') }}"

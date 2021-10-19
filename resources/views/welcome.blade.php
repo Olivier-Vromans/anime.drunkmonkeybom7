@@ -1,9 +1,3 @@
-@php
-    /**
-    * @var Anime $anime
-    * use App\Models\Anime;
-    **/
-@endphp
 @extends('layouts.layout')
 @section('head')
     <link rel="stylesheet" href="css/home.css">
@@ -29,25 +23,42 @@
 @section('content')
     <div>
         <h1 class="text-white text-center">Suggetions</h1>
-            <div id="container" class="container">
-                @foreach($animes as $anime)
-                    <div class="cards" id="cards">
-                        <a href="{{ route('anime.show', $anime) }}">
-                            <div class="card" id="card">
-                                <div class="image-box">
-                                    <img src="{{ asset("/storage/images/".$anime->image_card) }}" alt="" height="300px">
-                                </div>
-                                <div class="content-box">
-                                    <h2>{{$anime->title}}</h2>
-                                    <div class="detail">
-                                        <span>{{$anime->episodes}} episodes</span>
-                                        <span>{{$anime->premiered}}</span>
-                                    </div>
+        <div id="container" class="container">
+            @foreach($animes as $anime)
+                <div class="cards" id="cards">
+                    <a href="{{ route('anime.show', $anime) }}" class="text-decoration-none">
+                        <div class="card" id="card">
+                            <div class="image-box">
+                                <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
+                            </div>
+                            <div class="favorite">
+                                <a href="#" class="text-decoration-none">
+{{--                                        TODO OPTION CHANGE COLOR IF FAVORITED--}}
+                                    <span style="color: #ff0000">
+                                        <i class="fas fa-heart fa-3x "></i>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="content-box">
+                                <h2>{{$anime->title}}</h2>
+                                <div class="detail">
+                                    <span>{{$anime->episodes}} episodes</span>
+                                @if(strlen($anime->title) < 36)
+                                    <span>{{$anime->year}}</span>
+                                    @endif
+                                    @if(strlen($anime->title) <= 18)
+                                        <span>
+                                            @foreach($anime->genres as $genre)
+                                                    {{$genre->genre_name }}
+                                            @endforeach
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
