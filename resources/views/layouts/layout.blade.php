@@ -28,13 +28,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Anime List</title>
-    <link rel="icon" href="{{ url('/images/logo1.png') }}">
+    <link rel="icon" href="{{ url('/storage/images/logo1.png') }}">
 </head>
 <body class="bg-dark">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <!--Logo-->
         <a href="{{ url('/') }}" class="navbar-brand">
-            <img src="{{ url('/images/logo1.png') }}" height="90px" alt="logo"/>
+            <img src="{{ url('/storage/images/logo1.png') }}" height="90px" alt="logo"/>
         </a>
         <div class="nav-text">
             @guest
