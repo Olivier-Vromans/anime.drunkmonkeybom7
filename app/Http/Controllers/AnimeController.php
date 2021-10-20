@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use function Sodium\compare;
+
 
 class AnimeController extends Controller
 {
@@ -50,7 +50,9 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        return view('admin.addAnime')|);
+        dd("Hello World");
+    }
+//        dd("hello World");
 //        if (auth()->user()->role === 1){
 //        $genres = Genre::all();
 //        dd($genres);
@@ -58,7 +60,6 @@ class AnimeController extends Controller
 //        }else{
 //            return redirect('/');
 //        }
-    }
 
     /**
      * Store a newly created resource in storage.

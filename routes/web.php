@@ -27,7 +27,7 @@ Route::get('/anime/admin', [AnimeController::class, 'admin'])->name('admin');
 Route::get('/anime/{genre}', [AnimeController::class, 'showGenre'])->name('genre');
 Route::post('/anime/addAnime', [AnimeController::class, 'create'])->name('add');
 
-Route::resource('profile', ProfileController::class);
 Route::resource('anime', AnimeController::class);
+Route::resource('profile', ProfileController::class);
 
 Auth::routes();
