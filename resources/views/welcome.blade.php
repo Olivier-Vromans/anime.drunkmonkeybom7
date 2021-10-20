@@ -31,14 +31,6 @@
                             <div class="image-box">
                                 <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
                             </div>
-                            <div class="favorite">
-                                <a href="#" class="text-decoration-none">
-{{--                                        TODO OPTION CHANGE COLOR IF FAVORITED--}}
-                                    <span style="color: #ff0000">
-                                        <i class="fas fa-heart fa-3x "></i>
-                                    </span>
-                                </a>
-                            </div>
                             <div class="content-box">
                                 <h2>{{$anime->title}}</h2>
                                 <div class="detail">
@@ -61,4 +53,11 @@
             @endforeach
         </div>
     </div>
+@endsection
+@section('footer')
+    <script>
+        document.getElementById("favoriteURL").onclick = function() {
+            document.getElementById("favorite").submit();
+        }
+    </script>
 @endsection

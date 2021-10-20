@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,7 +55,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {
@@ -62,12 +63,14 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public function comments(){
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Comments::class);
     }
 
-    public function favorite(){
-        return $this->hasMany(Favorite::class);
+    public function anime(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Anime::class);
     }
     /**
      * The attributes that are mass assignable.

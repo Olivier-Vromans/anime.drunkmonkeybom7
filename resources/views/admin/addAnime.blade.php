@@ -1,4 +1,3 @@
-@dd("Hello World")
 @php
     use App\Models\Anime;use App\Models\Genre;
     /**
@@ -21,7 +20,7 @@
                 @if(session('danger'))
                     <h4 class="alert alert-danger">{{session('danger')}}</h4>
                 @endif
-                <form action="{{ url('anime/addAnime')  }}" method="post" class="text-left" enctype="multipart/form-data">
+                <form action="{{ route('anime.store')  }}" method="post" class="text-left" enctype="multipart/form-data">
                     @csrf
 {{--                    @dd(session('anime.year'))--}}
                     <fieldset>

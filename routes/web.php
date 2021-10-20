@@ -3,7 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +18,16 @@ use Illuminate\Support\Facades\Route;
 
 //Home URL
 Route::get('/', [Controller::class, 'index']);
-
-
-//SubUrl inside the websites
-Route::get('/about', [AboutController::class, 'index']);
+Route::post('anime/favorite', [AnimeController::class, 'favorite'])->name('favorite');
 
 Route::get('/anime/admin', [AnimeController::class, 'admin'])->name('admin');
-Route::get('/anime/{genre}', [AnimeController::class, 'showGenre'])->name('genre');
-Route::post('/anime/addAnime', [AnimeController::class, 'create'])->name('add');
-
+Route::resource('user', UserController::class);
 Route::resource('anime', AnimeController::class);
-Route::resource('profile', ProfileController::class);
+
+
+Route::get('/about', [AboutController::class, 'index']);
+//Post inside the websites
+
+Route::get('/anime/{genre}', [AnimeController::class, 'showGenre'])->name('genre');
 
 Auth::routes();

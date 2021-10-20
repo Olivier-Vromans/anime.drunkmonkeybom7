@@ -21,6 +21,22 @@
             <span>{{$anime->premiered}}</span>
         </div>
     </div>
+    <div class="favorite">
+        @dd($anime)
+        <form action="{{ route('favorite', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group row ">
+                <div class="col-sm-9">
+                    <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
+                </div>
+            </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-danger mb-2">Favorite</button>
+                </div>
+            </div>
+        </form>
+    </div>
 @endsection
 </body>
 

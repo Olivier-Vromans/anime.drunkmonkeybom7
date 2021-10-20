@@ -50,16 +50,19 @@ class Anime extends Model
     protected $table = 'animes';
     public $timestamps = false;
 
-    public function favorites(){
-        return $this->hasMany(Favorite::class);
-    }
 
-    public function genres(){
+    public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Genre::class);
     }
 
-    public function comments(){
+    public function comments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Comments::class);
     }
 
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

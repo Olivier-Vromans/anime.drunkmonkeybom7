@@ -8,10 +8,11 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +32,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        dd('Hello World');
+        //
     }
 
     /**
@@ -126,5 +127,13 @@ class ProfileController extends Controller
     {
         //
     }
+
+    /**
+     * Store favorite in storage.
+     *
+     * @param Request $request
+     * @param Anime $anime
+     * @return RedirectResponse
+     */
 
 }

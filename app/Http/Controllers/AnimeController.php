@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anime;
 use App\Models\Genre;
 use App\Models\User;
+use DebugBar\DebugBar;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -50,16 +51,14 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        dd("Hello World");
+        if (auth()->user()->role === 1) {
+            $genres = Genre::all();
+            $user = User::find(auth()->id());
+            return view('admin/addAnime', compact('genres', 'user'));
+        } else {
+            return redirect('/');
+        }
     }
-//        dd("hello World");
-//        if (auth()->user()->role === 1){
-//        $genres = Genre::all();
-//        dd($genres);
-//        return view('admin/addAnime', compact('genres'));
-//        }else{
-//            return redirect('/');
-//        }
 
     /**
      * Store a newly created resource in storage.
@@ -143,8 +142,8 @@ class AnimeController extends Controller
     public function show(Request $request, Anime $anime)
     {
         $genres = Genre::all();
-
-        return view('detail', compact('anime', 'genres'));
+        $user = User::find(auth()->id());
+        return view('detail', compact('anime', 'genres', 'user'));
     }
 
     /**
@@ -264,5 +263,33 @@ class AnimeController extends Controller
             return redirect('/');
         }
 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @param Anime $anime
+     * @return RedirectResponse
+     */
+    public function favorite(Request $request, Anime $anime)
+    {
+        $anime = Anime::find($request->input('id'));
+        $anime->save();
+        $anime->user()->attach($request->input('id'));
+        return redirect()->back()->with('status', 'Anime Favorited');
+    }
+
+    /**
+     * delete favorite in storage.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function unFavorite(Request $request)
+    {
+        $user = User::find(auth()->id());
+        $user->anime()->detach($request->input('anime_id'));
+        return back();
     }
 }

@@ -77,12 +77,12 @@
                 @else
                     @if(Auth::user()->role === 1)
                         <li class="nav-item {{ Request::is('anime/admin') ? 'active' : '' }}">
-                            <a class="nav-link text-right" href="{{ url('anime/admin') }}">Admin</a>
+                            <a class="nav-link text-right" href="{{ route('admin') }}">Admin</a>
                         </li>
                     @endif
 {{--                    Check if user logged in and than show profile and logout tab--}}
                     <li class="nav-item {{ Request::is('profile') ? 'active' : '' }}">
-{{--                        <a class="nav-link text-right" href="{{ route('profile.show', $user) }}">{{ Auth::user()->username }}</a>--}}
+                        <a class="nav-link text-right" href="{{ route('user.show', $user) }}">{{ Auth::user()->username }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-right" href="{{ route('logout') }}"
