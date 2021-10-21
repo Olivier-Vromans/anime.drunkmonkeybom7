@@ -23,11 +23,12 @@ class AnimeController extends Controller
      */
     public function index()
     {
+        return view('anime', [
 
-        $animes = Anime::all();
-        $genres = Genre::all();
-        $user = User::find(auth()->id());
-        return view('anime', compact('animes', 'genres', 'user'));
+            'animes' => Anime::latest()->filter(request(['search']))->get(),
+            'genre' => Genre::all(),
+            'user' => User::find(auth()->id())
+        ]);
     }
 
     /**

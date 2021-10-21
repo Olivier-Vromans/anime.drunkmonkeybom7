@@ -25,7 +25,7 @@ class CreateAnimeTable extends Migration
             $table->string('image_card')->nullable();
             $table->string('image_show')->nullable();
             $table->integer('status')->default(1);
-
+            $table->timestamps();
         });
     }
 

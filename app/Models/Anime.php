@@ -48,8 +48,15 @@ class Anime extends Model
     use HasFactory;
 
     protected $table = 'animes';
-    public $timestamps = false;
 
+    public function scopeFilter($query, array $filters) //Post::newQuery()->filter()
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search){
+            $query
+                ->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        });
+    }
 
     public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

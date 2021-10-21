@@ -17,25 +17,28 @@
             <div  class="text-center text-white">
                 <div>
                     <h1 class="text-white text-center">Animes</h1>
+{{--                    Search Bar--}}
                     <div class="container">
-                        <form class="form-inline my-2 my-lg-0 justify-content-center text-center" role="search">
-                            @csrf
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Filter
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <option class="dropdown-item" disabled>--Select Genre--</option>
-                                @foreach($genres as $genre)
-                                    <option class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</option>
-                                @endforeach
-                            </div>
-                            <label>
-                                <input type="text" class="form-control" placeholder="Search for Anime">
-                            </label>
-                            <button class="btn btn-dark" style="outline: none" type="submit"><i class="fas fa-search"></i></button>
+                        <form method="GET" action="#" class="form-inline my-2 my-lg-0 justify-content-center text-center" role="search">
+{{--                            Filter function--}}
+{{--                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                                Filter--}}
+{{--                            </button>--}}
+{{--                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">--}}
+{{--                                <option class="dropdown-item" disabled>--Select Genre--</option>--}}
+{{--                                @foreach($genres as $genre)--}}
+{{--                                    <option class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+{{--                            Search function--}}
+                                <input type="text" name="search" placeholder="Search for Anime"
+                                    class="form-control bg-transparent placeholder-glow font-semibold text-sm text-white"
+                                    autocomplete="off" value="{{request('search')}}">
+{{--                            <button class="btn btn-dark" style="outline: none" type="submit"><i class="fas fa-search"></i></button>--}}
                         </form>
-                    </div>
 
+                    </div>
+{{--                    For loop for the Anime Cards--}}
                     <div id="container" class="container">
                         @foreach($animes as $anime)
                             <div class="cards" id="cards">
@@ -64,6 +67,9 @@
                                 </a>
                             </div>
                         @endforeach
+                        @if(sizeof($animes) == 0)
+                            <h5>No results found...</h5>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -71,16 +77,6 @@
     </div>
 @endsection
 @section('footer')
-    <script>
-        $(document).ready(function(){
-            $("#myInput").on("keyup", function() {
-                let value = $(this).val().toLowerCase();
-                $(".dropdown-menu li").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
-    </script>
 @endsection
 </body>
 
