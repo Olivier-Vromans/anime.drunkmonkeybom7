@@ -68,9 +68,9 @@ class User extends Authenticatable
         return $this->hasMany(Comments::class);
     }
 
-    public function anime(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function anime(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Anime::class);
+        return $this->belongsToMany(Anime::class);
     }
     /**
      * The attributes that are mass assignable.

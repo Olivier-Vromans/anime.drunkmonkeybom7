@@ -23,6 +23,7 @@ class AnimeController extends Controller
      */
     public function index()
     {
+
         $animes = Anime::all();
         $genres = Genre::all();
         $user = User::find(auth()->id());
@@ -274,9 +275,10 @@ class AnimeController extends Controller
      */
     public function favorite(Request $request, Anime $anime)
     {
+        $user = User::find(auth()->id());
         $anime = Anime::find($request->input('id'));
         $anime->save();
-        $anime->user()->attach($request->input('id'));
+        $anime->user()->attach($user);
         return redirect()->back()->with('status', 'Anime Favorited');
     }
 
@@ -284,12 +286,15 @@ class AnimeController extends Controller
      * delete favorite in storage.
      *
      * @param Request $request
+     * @param Anime $anime
      * @return RedirectResponse
      */
-    public function unFavorite(Request $request)
+    public function unFavorite(Request $request, Anime $anime)
     {
         $user = User::find(auth()->id());
-        $user->anime()->detach($request->input('anime_id'));
-        return back();
+        $anime = Anime::find($request->input('id'));
+        $anime->save();
+        $anime->user()->detach($user);
+        return redirect()->back()->with('status', 'Anime Unfavorited');
     }
 }
