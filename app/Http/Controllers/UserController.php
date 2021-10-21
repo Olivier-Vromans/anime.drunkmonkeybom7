@@ -69,51 +69,59 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param User $user
+     * @return Application|Factory|View|Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        if (auth()->user()->role === 1){
+            $user = User::find($user->id);
+
+            return view('users/editprofile', compact( 'user'));
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param Request $request
      * @param User $user
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(User $user)
+    public function update(Request $request,User $user)
     {
         if (auth()->user()){
             $user = User::find($user->id);
 
-            //        Check if Title has been filled other wise skip this part of the edit
+//              Check if Firstname has been filled other wise skip this part of the edit
             if (!$request->input('firstname') == "") {
-                $user->title = $request->input('firstname');
+                $user->firstname = $request->input('firstname');
             }
 
-            //        Check if Description has been filled other wise skip this part of the edit
+//              Check if Lastname has been filled other wise skip this part of the edit
             if (!$request->input('lastname') == "") {
-                $user->description = $request->input('lastname');
+                $user->lastname = $request->input('lastname');
             }
 
-            //        Check if Image_card has been added other wise skip this part of the edit
+//              Check if Username has been filled other wise skip this part of the edit
+            if (!$request->input('username') == "") {
+                $user->username = $request->input('username');
+            }
+
+//        Check if profile_picture has been added other wise skip this part of the edit
             if (!$request->file('profile_picture') == ""){
-                $user->image_card = $request->file('profile_picture')->storePublicly('images', 'public');
-                $user->image_card = str_replace('images/profile_picture', '', $user->image_card);
+                $user->profile_picture = $request->file('profile_picture')->storePublicly('images/profile_picture', 'public');
+                $user->profile_picture = str_replace('images/profile_picture', '', $user->profile_picture);
             }
 
             //        save data
             $user->save();
-            //        Detach past relations with genre
-            $user->genres()->detach();
-            //        Attach new relations with genre
-            $user->genres()->attach($request->input('genre_id'));
             //        Redirect back to admin with status
-            return redirect()->route('admin')->with('status', "Anime Updated");
+            return redirect()->route('user.show', $user)->with('status', "Profile Updated");
         }else{
-            return redirect()->route('users.myprofile');
+            return redirect()->route('/');
         }
     }
 

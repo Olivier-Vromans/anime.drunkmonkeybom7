@@ -83,7 +83,7 @@
                             <td data-id="{{ $anime->id }}">{{ $anime->image_show }}</td>
                             <td data-id="{{ $anime->id }}">
                                 <label>
-                                    <input data-id="{{ $anime->id }}" class="toggle-class" type="checkbox" data-onstyle="succes" data-off="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" {{$anime->status ? 'checked' : ''}}>
+                                    <input data-id="{{ $anime->id }}" class="toggle-class" type="checkbox" data-onstyle="succes"  data-toggle="toggle" {{$anime->status ? 'checked' : ''}}>
                                 </label>
                             </td>
                             <td data-id="{{ $anime->id }}"><a href="{{ route('anime.edit', $anime) }}"><i class="fas fa-edit btnedit" id="edit" aria-hidden="true"></i></a></td>
@@ -102,7 +102,7 @@
     </div>
 @endsection
 @section('footer')
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="{{asset("js/main.js")}}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 @endsection
 </body>

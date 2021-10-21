@@ -18,14 +18,15 @@
                 <div>
                     <h1 class="text-white text-center">Animes</h1>
                     <div class="container">
-                        <form class="form-inline my-2 my-lg-0 justify-content-center text-center">
+                        <form class="form-inline my-2 my-lg-0 justify-content-center text-center" role="search">
+                            @csrf
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Filter
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" >--Select Genre--</a>
+                                <option class="dropdown-item" disabled>--Select Genre--</option>
                                 @foreach($genres as $genre)
-                                    <a class="dropdown-item" href="{{route('genre', $genre)}}">{{ $genre->genre_name }}</a>
+                                    <option class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</option>
                                 @endforeach
                             </div>
                             <label>

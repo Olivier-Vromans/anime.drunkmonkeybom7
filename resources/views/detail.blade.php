@@ -16,7 +16,6 @@
             <img style="height: 300px" src="{{ asset("/storage/images/image_show/".$anime->image_show) }}" alt="">
             <h1>{{ $anime->title }}</h1>
             <span>{{$anime->episodes}} episodes</span><br>
-            <span>{{$anime->id}}</span><br>
             @foreach($anime->genres as $genre)
                 <span>{{$genre->genre_name }}</span>
             @endforeach
@@ -25,10 +24,7 @@
     </div>
     <div class="favorite">
 {{--    Check if $anime has a relation with the id of the user--}}
-{{--        @dd(Auth::id())--}}
-{{--        @dd($anime->user()->find(1))--}}
         @if($anime->user()->find(Auth::id()))
-{{--            @dd('have a relation')--}}
             <form action="{{ route('unfavorite', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row ">
@@ -43,7 +39,6 @@
                 </div>
             </form>
         @elseif($anime->user()->find(Auth::id()) === null)
-{{--            @dd('no relation')--}}
             <form action="{{ route('favorite', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row ">
