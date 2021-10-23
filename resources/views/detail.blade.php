@@ -27,12 +27,12 @@
         @if($anime->user()->find(Auth::id()))
             <form action="{{ route('unfavorite', $anime)  }}" method="post" class="text-left" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group row ">
-                    <div class="col-sm-9">
+                <div class="form-group row">
+                    <div class="col-sm-9 text-center">
                         <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
                     </div>
                 </div>
-                <div class="form-group row justify-content-center">
+                <div class="form-group row justify-content-center text-center">
                     <div class="col-sm-2">
                         <button type="submit" class="btn btn-secondary mb-2">Unfavorite</button>
                     </div>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <button type="submit" class="btn btn-danger mb-2">Favorite</button>
                     </div>
                 </div>

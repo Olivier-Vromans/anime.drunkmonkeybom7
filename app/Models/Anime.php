@@ -56,6 +56,14 @@ class Anime extends Model
                 ->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%');
         });
+        $query->when($filters['genre'] ?? false, function ($query, $genre){
+//select animes.title from anime_genre join animes on anime_genre.anime_id=animes.id
+            $query
+                ->select('*')
+                ->from('anime_genre')
+                ->join('animes', 'anime_genre.anime_id',  '=', 'animes.id')
+                ->where('anime_genre.genre_id', '=', $genre);
+        });
     }
 
     public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

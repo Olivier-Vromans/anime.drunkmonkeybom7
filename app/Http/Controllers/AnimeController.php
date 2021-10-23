@@ -25,8 +25,8 @@ class AnimeController extends Controller
     {
         return view('anime', [
 
-            'animes' => Anime::latest()->filter(request(['search']))->get(),
-            'genre' => Genre::all(),
+            'animes' => Anime::latest()->filter(request(['search', 'genre']))->get()->sortBy('title'),
+            'genres' => Genre::all(),
             'user' => User::find(auth()->id())
         ]);
     }
@@ -152,10 +152,10 @@ class AnimeController extends Controller
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Genre $genre
+     * @param Genre $genres
      * @return Application|Factory|View|Response
      */
-    public function showGenre(Request $request, Genre $genre)
+    public function showGenre(Request $request, Genre $genres)
     {
         $genres = Genre::all();
 
