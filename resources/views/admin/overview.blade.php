@@ -23,7 +23,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <script src="https://cdn.datatables.net/plug-ins/1.10.16/dataRender/ellipsis.js"></script>
 
+{{--Ajax loading in--}}
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
 {{--Bootstrap Toggle--}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" integrity="sha512-F636MAkMAhtTplahL9F6KmTfxTmYcAcjcCkyu0f0voT3N/6vzAuJ4Num55a0gEJ+hRLHhdz3vDvZpf6kqgEa5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>@endsection--}}
 {{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.css" integrity="sha512-9tISBnhZjiw7MV4a1gbemtB9tmPcoJ7ahj8QWIc0daBCdvlKjEA48oLlo6zALYm3037tPYYulT0YQyJIJJoyMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />--}}
 
@@ -52,6 +57,7 @@
                     </tr>
                     <tr>
                         <th>#</th>
+                        <th>Status</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Episodes</th>
@@ -60,7 +66,6 @@
                         <th>Year</th>
                         <th>Image_Card</th>
                         <th>Image_Show</th>
-                        <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -69,6 +74,8 @@
                     @foreach($animes as $anime)
                         <tr>
                             <td data-id="{{ $anime->id }}">{{ $anime->id }}</td>
+                            <td data-id="{{ $anime->id }}">
+                                <input type="checkbox" data-id="{{ $anime->id }}" name="status" class="js-switch" {{ $anime->status == 1 ? 'checked' : '' }}>
                             <td data-id="{{ $anime->id }}">{{ $anime->title }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->description }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->episodes }}</td>
@@ -81,11 +88,6 @@
                             <td data-id="{{ $anime->id }}">{{ $anime->year }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->image_card }}</td>
                             <td data-id="{{ $anime->id }}">{{ $anime->image_show }}</td>
-                            <td data-id="{{ $anime->id }}">
-                                <label>
-                                    <input data-id="{{ $anime->id }}" class="toggle-class" type="checkbox" data-onstyle="succes"  data-toggle="toggle" {{$anime->status ? 'checked' : ''}}>
-                                </label>
-                            </td>
                             <td data-id="{{ $anime->id }}"><a href="{{ route('anime.edit', $anime) }}"><i class="fas fa-edit btnedit" id="edit" aria-hidden="true"></i></a></td>
                             <td data-id="{{ $anime->id }}">
                                 <form action="{{route('anime.destroy', $anime)}}" method="post">
@@ -102,6 +104,12 @@
     </div>
 @endsection
 @section('footer')
+    <script>let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function(html) {
+            let switchery = new Switchery(html,  { size: 'small' });
+        });
+    </script>
     <script src="{{asset("js/main.js")}}"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 @endsection

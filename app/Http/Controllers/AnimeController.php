@@ -23,10 +23,11 @@ class AnimeController extends Controller
      */
     public function index()
     {
+//        dd(request('genre'));
         return view('anime', [
-
-            'animes' => Anime::latest()->filter(request(['search', 'genre']))->get()->sortBy('title'),
+            'animes' => Anime::latest()->filter(request(['search', 'genre']))->get()->sortBy('id'),
             'genres' => Genre::all(),
+            'currentGenre' => Genre::firstWhere('id', request('genre')),
             'user' => User::find(auth()->id())
         ]);
     }
@@ -297,5 +298,13 @@ class AnimeController extends Controller
         $anime->save();
         $anime->user()->detach($user);
         return redirect()->back()->with('status', 'Anime Unfavorited');
+    }
+    public function updateStatus(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $anime = Anime::findOrFail($request->anime_id);
+        $anime->status = $request->status;
+        $anime->save();
+
+        return response()->json(['status' => 'Anime status updated successfully.']);
     }
 }

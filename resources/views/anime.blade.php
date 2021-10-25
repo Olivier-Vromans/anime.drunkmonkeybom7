@@ -22,20 +22,26 @@
                         <form method="GET" action="#" class="form-inline my-2 my-lg-0 justify-content-center text-center" role="search">
 {{--                            Filter function--}}
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Filter
+                                {{isset($currentGenre) ? ucwords($currentGenre->genre_name) : 'Filter'}}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <option class="dropdown-item" disabled>--Select Genre--</option>
-                                <a href="#" class="dropdown-item">All Genres</a>
+                                <a href="/anime" class="dropdown-item">All Genres</a>
                                 @foreach($genres as $genre)
-                                    <a href="" class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</a>
+                                    <a href="/anime?genre={{$genre->id}}&{{http_build_query(request()->except('genre'))}}" class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</a>
                                 @endforeach
+                                @if(request('genre'))
+{{--                                    @dd(request('genre'))--}}
+                                @endif
                             </div>
+                            @if(request('genre'))
+                                <input type="hidden" name="genre" value="{{request('genre')}}">
+                            @endif
 {{--                            Search function--}}
                                 <input type="text" name="search" placeholder="Search for Anime"
                                     class="form-control bg-transparent placeholder-glow font-semibold text-sm text-white"
                                     autocomplete="off" value="{{request('search')}}">
-{{--                            <button class="btn btn-dark" style="outline: none" type="submit"><i class="fas fa-search"></i></button>--}}
+                            <button class="btn btn-dark" style="outline: none" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                         @if(sizeof($animes) == 0)
                             <h5 class="text-center p-3">No results found...</h5>
@@ -44,31 +50,35 @@
 {{--                    For loop for the Anime Cards--}}
                     <div id="container" class="container">
                         @foreach($animes as $anime)
-                            <div class="cards" id="cards">
-                                <a href="{{ route('anime.show', $anime) }}">
-                                    <div class="card" id="card">
-                                        <div class="image-box">
-                                            <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
-                                        </div>
-                                        <div class="content-box">
-                                            <h2>{{$anime->title}}</h2>
-                                            <div class="detail">
-                                                <span>{{$anime->episodes}} episodes</span>
-                                                @if(strlen($anime->title) < 36)
-                                                    <span>{{$anime->year}}</span>
-                                                @endif
-                                                @if(strlen($anime->title) <= 18)
-                                                    <span>
-                                            @foreach($anime->genres as $genre)
-                                                            {{$genre->genre_name }}
-                                                        @endforeach
-                                        </span>
-                                                @endif
+                            @if($anime->status === 0)
+
+                            @else
+                                <div class="cards" id="cards">
+                                    <a href="{{ route('anime.show', $anime) }}">
+                                        <div class="card" id="card">
+                                            <div class="image-box">
+                                                <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
+                                            </div>
+                                            <div class="content-box">
+                                                <h2>{{$anime->title}}</h2>
+                                                <div class="detail">
+                                                    <span>{{$anime->episodes}} episodes</span>
+                                                    @if(strlen($anime->title) < 36)
+                                                        <span>{{$anime->year}}</span>
+                                                    @endif
+                                                    @if(strlen($anime->title) <= 18)
+                                                        <span>
+                                                @foreach($anime->genres as $genre)
+                                                                {{$genre->genre_name }}
+                                                            @endforeach
+                                            </span>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>

@@ -16,13 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $episodes
  * @property int|null $users_favorite
  * @property int|null $rating
+ * @property int|null $status
  * @property string|null $premiered
  * @property int|null $comment_id
  * @property string|null $image
  * @property-read Collection|Comments[] $comments
  * @property-read int|null $comments_count
- * @property-read Collection|Favorite[] $favorites
- * @property-read int|null $favorites_count
  * @property-read Collection|Genre[] $genre
  * @property-read int|null $genre_count
  * @method static \Illuminate\Database\Eloquent\Builder|Anime newModelQuery()
@@ -54,7 +53,7 @@ class Anime extends Model
         $query->when($filters['search'] ?? false, function ($query, $search){
             $query
                 ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%');
+                ->orWhere('description', 'like', '%' . $search . '%')->first();
         });
         $query->when($filters['genre'] ?? false, function ($query, $genre){
 //select animes.title from anime_genre join animes on anime_genre.anime_id=animes.id
