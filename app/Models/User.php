@@ -34,8 +34,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $updated_at
  * @property-read Collection|Comments[] $comments
  * @property-read int|null $comments_count
- * @property-read Collection|Favorite[] $favorite
- * @property-read int|null $favorite_count
  * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection|PersonalAccessToken[] $tokens

@@ -16,13 +16,20 @@ $(function( $ ){
     $('.js-switch').change(function () {
         let status = $(this).prop('checked') === true ? 1 : 0;
         let animeid = $(this).data('id');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $.ajax({
-            type: "GET",
+            type: "POST",
             dataType: "json",
             url: "/anime/changeStatus",
             data: {'status': status, 'anime_id': animeid},
             success: function (data) {
-                console.log(data.message);
+                // console.log(message);
             }
         });
     });

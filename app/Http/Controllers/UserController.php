@@ -49,17 +49,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @param User $user
      * @return Application|Factory|View|Response
      */
-    public function show(User $user)
+    public function show(Request $request, $id)
     {
-        $user = User::find(auth()->id());
-        $animes = Anime::all();
-        $genres = Genre::all();
-        if (auth()->user()){
-            $user = User::find($user->id);
+        if (auth()->user()->id == intval($id)){
+            $user = User::find($id);
+            $animes = Anime::all();
+            $genres = Genre::all();
             return view('users.myprofile', compact('user', 'animes', 'genres'));
         }else{
             return redirect('/');
@@ -72,11 +69,10 @@ class UserController extends Controller
      * @param User $user
      * @return Application|Factory|View|Response
      */
-    public function edit(User $user)
+    public function edit(Request $request, $id)
     {
-        if (auth()->user()->role === 1){
-            $user = User::find($user->id);
-
+        if (auth()->user()->id == intval($id)){
+            $user = User::find($id);
             return view('users/editprofile', compact( 'user'));
         }else{
             return redirect('/');
@@ -90,7 +86,7 @@ class UserController extends Controller
      * @param User $user
      * @return RedirectResponse
      */
-    public function update(Request $request,User $user)
+    public function update(Request $request, User $user)
     {
         if (auth()->user()){
             $user = User::find($user->id);

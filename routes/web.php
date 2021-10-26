@@ -20,12 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Controller::class, 'index']);
 Route::post('anime/favorite', [AnimeController::class, 'favorite'])->name('favorite');
 Route::post('anime/unfavorite', [AnimeController::class, 'unfavorite'])->name('unfavorite');
-Route::get('/anime/changeStatus', [AnimeController::class, 'updateStatus']);
+Route::post('/anime/changeStatus', [AnimeController::class, 'updateStatus']);
 
 Route::get('/anime/admin', [AnimeController::class, 'admin'])->name('admin');
 Route::resource('user', UserController::class);
 Route::resource('anime', AnimeController::class);
-
 
 Route::get('/about', [AboutController::class, 'index']);
 //Post inside the websites

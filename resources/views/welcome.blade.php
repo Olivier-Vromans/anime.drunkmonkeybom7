@@ -25,31 +25,33 @@
         <h1 class="text-white text-center">Suggetions</h1>
         <div id="container" class="container">
             @foreach($animes as $anime)
-                <div class="cards" id="cards">
-                    <a href="{{ route('anime.show', $anime) }}" class="text-decoration-none">
-                        <div class="card" id="card">
-                            <div class="image-box">
-                                <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
-                            </div>
-                            <div class="content-box">
-                                <h2>{{$anime->title}}</h2>
-                                <div class="detail">
-                                    <span>{{$anime->episodes}} episodes</span>
-                                @if(strlen($anime->title) < 36)
-                                    <span>{{$anime->year}}</span>
-                                    @endif
-                                    @if(strlen($anime->title) <= 18)
-                                        <span>
-                                            @foreach($anime->genres as $genre)
-                                                    {{$genre->genre_name }}
-                                            @endforeach
-                                        </span>
-                                    @endif
+                @if($anime->status === 1)
+                    <div class="cards" id="cards">
+                        <a href="{{ route('anime.show', $anime) }}" class="text-decoration-none">
+                            <div class="card" id="card">
+                                <div class="image-box">
+                                    <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
+                                </div>
+                                <div class="content-box">
+                                    <h2>{{$anime->title}}</h2>
+                                    <div class="detail">
+                                        <span>{{$anime->episodes}} episodes</span>
+                                    @if(strlen($anime->title) < 36)
+                                        <span>{{$anime->year}}</span>
+                                        @endif
+                                        @if(strlen($anime->title) <= 18)
+                                            <span>
+                                                @foreach($anime->genres as $genre)
+                                                        {{$genre->genre_name }}
+                                                @endforeach
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endif
             @endforeach
         </div>
     </div>

@@ -31,7 +31,6 @@
                                     <a href="/anime?genre={{$genre->id}}&{{http_build_query(request()->except('genre'))}}" class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</a>
                                 @endforeach
                                 @if(request('genre'))
-{{--                                    @dd(request('genre'))--}}
                                 @endif
                             </div>
                             @if(request('genre'))
@@ -50,9 +49,7 @@
 {{--                    For loop for the Anime Cards--}}
                     <div id="container" class="container">
                         @foreach($animes as $anime)
-                            @if($anime->status === 0)
-
-                            @else
+                            @if($anime->status === 1)
                                 <div class="cards" id="cards">
                                     <a href="{{ route('anime.show', $anime) }}">
                                         <div class="card" id="card">

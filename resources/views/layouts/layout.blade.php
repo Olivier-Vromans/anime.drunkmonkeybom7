@@ -34,10 +34,11 @@
 </head>
 <body class="bg-dark">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <!--Logo-->
+{{--        Logo--}}
         <a href="{{ url('/') }}" class="navbar-brand">
             <img src="{{ url('/storage/images/logo1.png') }}" height="90px" alt="logo"/>
         </a>
+{{--        Title--}}
         <div class="nav-text">
             @guest
                 @if (Route::has('register'))
@@ -47,13 +48,15 @@
                 <h4 class="text-light">{{ Auth::user()->username }}'s Anime List</h4>
             @endguest
         </div>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
+{{--        navbar-toggle--}}
+        <div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+{{--        navbar--}}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('/') }}">Home<span class="sr-only">(current)</span></a>
                 </li>
@@ -99,12 +102,6 @@
                     </li>
                 @endguest
             </ul>
-            <form class="form-inline my-2 my-lg-0 justify-content-end">
-                <div class="search">
-                    <input type="text" placeholder="Search for Anime">
-                </div>
-                <button class="btn btn-dark" style="outline: none" type="submit"><i class="fas fa-search"></i></button>
-            </form>
         </div>
     </nav>
     <div>

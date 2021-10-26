@@ -56,7 +56,7 @@ class Anime extends Model
                 ->orWhere('description', 'like', '%' . $search . '%')->first();
         });
         $query->when($filters['genre'] ?? false, function ($query, $genre){
-//select animes.title from anime_genre join animes on anime_genre.anime_id=animes.id
+        //select * from anime_genre join animes on anime_genre.anime_id=animes.id
             $query
                 ->select('*')
                 ->from('anime_genre')
