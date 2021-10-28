@@ -19,9 +19,11 @@
         "postcss": "^8.1.14",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.11",
-        "sass-loader": "^11.0.1"
+        "sass-loader": "^11.0.1",
+        "select2": "^4.1.0-rc.0"
     },
     "dependencies": {
+        "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap-toggle": "^2.2.2",
         "bootstrap4-toggle": "^3.6.1"
     }

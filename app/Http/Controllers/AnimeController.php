@@ -111,15 +111,15 @@ class AnimeController extends Controller
 
             //        Check if Image_card has been added other wise skip this part of the edit
             if (!$request->file('image_card') == ""){
-                $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-                $anime->image_card = str_replace('images/image_card', '', $anime->image_card);
+                $anime->image_card = $request->file('image_card')->storePublicly('images/images_card', 'public');
+                $anime->image_card = str_replace('images/image_card/', '', $anime->image_card);
             }else{
                 return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image card must be uploaded');
             }
             //        Check if Image_show has been added other wise skip this part of the edit
             if (!$request->file('image_show') == ""){
-                $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
-                $anime->image_show = str_replace('images/image_show', '', $anime->image_show);
+                $anime->image_show = $request->file('image_show')->storePublicly('images/images_show', 'public');
+                $anime->image_show = str_replace('images/image_show/', '', $anime->image_show);
             }else{
                 return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image show must be uploaded');
             }
@@ -229,13 +229,13 @@ class AnimeController extends Controller
 
             //        Check if Image_card has been added other wise skip this part of the edit
             if (!$request->file('image_card') == ""){
-                $anime->image_card = $request->file('image_card')->storePublicly('images', 'public');
-                $anime->image_card = str_replace('images/image_card', '', $anime->image_card);
+                $anime->image_card = $request->file('image_card')->storePublicly('images/image_card', 'public');
+                $anime->image_card = str_replace('images/image_card/', '', $anime->image_card);
             }
             //        Check if Image_show has been added other wise skip this part of the edit
             if (!$request->file('image_show') == ""){
-                $anime->image_show = $request->file('image_show')->storePublicly('images', 'public');
-                $anime->image_show = str_replace('images/image_show', '', $anime->image_show);
+                $anime->image_show = $request->file('image_show')->storePublicly('images/image_show', 'public');
+                $anime->image_show = str_replace('images/image_show/', '', $anime->image_show);
             }
             //        save data
             $anime->save();

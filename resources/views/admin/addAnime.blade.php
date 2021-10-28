@@ -8,18 +8,9 @@
 @endphp
 @extends('layouts.layout')
 @section('head')
-    <style>
-        .bootstrap-select .bs-ok-default::after {
-            width: 0.3em;
-            height: 0.6em;
-            border-width: 0 0.1em 0.1em 0;
-            transform: rotate(45deg) translateY(0.5rem);
-        }
-
-        .btn.dropdown-toggle:focus {
-            outline: none !important;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 @endsection
 @section('nav')
 @endsection
@@ -38,19 +29,17 @@
                 <form action="{{ route('anime.store')  }}" method="post" class="text-left"
                       enctype="multipart/form-data">
                     @csrf
-                    {{--                    @dd(session('anime.year'))--}}
                     <fieldset>
-                        {{--                        @dd(session('anime'))--}}
                         <legend>Add New Anime</legend>
-                        {{--                        Title--}}
+                        {{--Title--}}
                         <div class="form-group row">
                             <label for="title" class="col-sm-3 col-form-label">Title</label>
                             <div class="col-sm-9">
                                 <input type="text" id="title" name="title" value="{{session('anime.title')}}"
-                                       class="form-control" placeholder="Anime Title">
+                                       class="form-control" placeholder="Anime Title" required>
                             </div>
                         </div>
-                        {{--                        Description --}}
+                        {{--Description --}}
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-9">
@@ -58,40 +47,19 @@
                                           placeholder="Anime Description">{{session('anime.description')}}</textarea>
                             </div>
                         </div>
-                        {{--                        Genres--}}
+                        {{--Genre --}}
                         <div class="form-group row">
                             <label for="genre_id" class="col-sm-3 col-form-label">Genres</label>
-                            <div class="col-sm-9">
-                                @foreach($genres as $genre)
-                                    <label>
-                                        <input id="genre_id" name="genre_id[]" type="checkbox" value="{{ $genre->id }}"
-                                        @if(session('animeGenres') == null)
-                                            ''
-                                        @else
-                                            @foreach(session('animeGenres') as $animeGenre)
-                                                {{ ($animeGenre == ($genre->id)) ? 'checked' : '' }}
-                                            @endforeach
-                                        @endif
-                                        <span> {{ $genre->name }}</span>
-                                    </label>
-                                @endforeach
+                            <div class="col-sm-9" style="color: #495057">
+                                <select id='myselect' name="genre_id[]" multiple>
+                                    <option value="">Select An Option</option>
+                                    @foreach($genres as $genre)
+                                        <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        <div class="container py-5">
-                            <div class="row">
-                                <div class="col-lg-6 mx-auto">
-                                    <label class="text-white mb-3 lead">Genres</label>
-                                    <!-- Multiselect dropdown -->
-                                    <select multiple data-style="bg-white rounded-pill px-4 py-3 shadow-sm "
-                                            class="selectpicker w-100">
-                                        @foreach($genres as $genre)
-                                            <option>{{ $genre->name }}</option>
-                                        @endforeach
-                                    </select><!-- End -->
-                                </div>
-                            </div>
-                        </div>
-                        {{--                        Episodes--}}
+                        {{--Episodes--}}
                         <div class="form-group row">
                             <label for="episodes" class="col-sm-3 col-form-label">Episodes</label>
                             <div class="col-sm-5">
@@ -99,7 +67,7 @@
                                        class="form-control" placeholder="Anime Episodes" min="1">
                             </div>
                         </div>
-                        {{--                        Rating--}}
+                        {{--Rating--}}
                         <div class="form-group row">
                             <label for="rating" class="col-sm-3 col-form-label">Rating</label>
                             <div class="col-sm-5">
@@ -107,8 +75,7 @@
                                        class="form-control" placeholder="Anime Rating" min="0" max="10" step="0.01">
                             </div>
                         </div>
-                        {{--                        Year--}}
-                        {{--                        @dd(session('anime.year'))--}}
+                        {{--Year--}}
                         <div class="form-group row">
                             <label for="year" class="col-sm-3 col-form-label">Year</label>
                             <div class="col col-sm-5">
@@ -137,7 +104,7 @@
                                        class="form-control" placeholder="Anime Year" min="1900" max="2900">
                             </div>
                         </div>
-                        {{--                        Image_Card--}}
+                        {{--Image_Card--}}
                         <div class="form-group row">
                             <label for="image_card" class="col-sm-3 col-form-label">Image Card</label>
                             <div class="col-sm-9">
@@ -150,9 +117,8 @@
                                 <input type="file" id="image_show" name="image_show" class="form-control-file">
                             </div>
                         </div>
-                        {{--                        Status--}}
+                        {{--Status--}}
                         <div class="form-group row">
-                            {{--                        <label for="status" class="col-sm-3 col-form-label">Status</label>--}}
                             <div class="col-sm-9">
                                 <input type="hidden" id="image_show" name="status" class="form-control" value="1">
                             </div>
@@ -170,8 +136,10 @@
 @endsection
 @section('footer')
     <script>
-        $(function () {
-            $('.selectpicker').selectpicker();
+        $('#myselect').select2({
+            width: '100%',
+            placeholder: "Select an Option",
+            allowClear: true
         });
     </script>
 @endsection
