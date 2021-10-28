@@ -39,28 +39,28 @@ class Controller extends BaseController
 //        };
 
 //      Genre API
-        $url = HTTP::get('https://api.jikan.moe/v4/genres/anime');
-        $urlGenres = $url->collect('data')->unique('mal_id');
-
-        if($url){
-            foreach ($urlGenres as $urlGenre) {
-                $AddedGenres = false;
-                // Iterate all ready items and attempt to find a match with item.
-                foreach ($genres as $genre) {
-                    if ($urlGenre['mal_id'] === $genre['id']) {
-                        $AddedGenres = true;
-                        break; // Stop iterating ready items if a match is found.
-                    }
-                }
-                // Add item to $notReadyItems array if no match is found.
-                if ($AddedGenres === false) {
-                    $genre = new Genre;
-                    $genre->id = $urlGenre['mal_id'];
-                    $genre->name = $urlGenre['name'];
-                    $genre->save();
-                }
-            }
-        }
+//        $url = HTTP::get('https://api.jikan.moe/v4/genres/anime');
+//        $urlGenres = $url->collect('data')->unique('mal_id');
+//
+//        if($url){
+//            foreach ($urlGenres as $urlGenre) {
+//                $AddedGenres = false;
+//                // Iterate all ready items and attempt to find a match with item.
+//                foreach ($genres as $genre) {
+//                    if ($urlGenre['mal_id'] === $genre['id']) {
+//                        $AddedGenres = true;
+//                        break; // Stop iterating ready items if a match is found.
+//                    }
+//                }
+//                // Add item to $notReadyItems array if no match is found.
+//                if ($AddedGenres === false) {
+//                    $genre = new Genre;
+//                    $genre->id = $urlGenre['mal_id'];
+//                    $genre->name = $urlGenre['name'];
+//                    $genre->save();
+//                }
+//            }
+//        }
         return view('welcome', compact('animes', 'user'));
     }
 }
