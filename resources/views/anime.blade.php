@@ -52,7 +52,7 @@
                             @if($anime->status === 1)
                                 <div class="cards" id="cards">
                                     <a href="{{ route('anime.show', $anime) }}">
-                                        <div class="card" id="card">
+                                    <div class="card" id="card">
                                             <div class="image-box">
                                                 <img src="{{ asset("/storage/images/image_card/".$anime->image_card) }}" alt="" height="300px">
                                             </div>

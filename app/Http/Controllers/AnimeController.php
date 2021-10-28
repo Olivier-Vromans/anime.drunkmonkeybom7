@@ -23,7 +23,6 @@ class AnimeController extends Controller
      */
     public function index()
     {
-//        dd(request('genre'));
         return view('anime', [
             'animes' => Anime::latest()->filter(request(['search', 'genre']))->get()->sortBy('id'),
             'genres' => Genre::all(),
@@ -172,7 +171,7 @@ class AnimeController extends Controller
     public function edit(Anime $anime)
     {
         if (auth()->user()->role === 1){
-            $animeGenres =  $anime->genres()->get();
+            $animeGenres = $anime->genres()->get();
             $anime = Anime::find($anime->id);
             $genres = Genre::all();
             $user = User::find(auth()->id());

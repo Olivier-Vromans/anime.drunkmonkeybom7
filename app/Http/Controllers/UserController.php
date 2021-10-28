@@ -57,7 +57,8 @@ class UserController extends Controller
             $user = User::find($id);
             $animes = Anime::all();
             $genres = Genre::all();
-            return view('users.myprofile', compact('user', 'animes', 'genres'));
+            $favorites = $user->anime()->get();
+            return view('users.myprofile', compact('user', 'animes', 'genres', 'favorites'));
         }else{
             return redirect('/');
         }

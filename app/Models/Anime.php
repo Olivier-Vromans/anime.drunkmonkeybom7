@@ -41,7 +41,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Anime whereUsersFavorite($value)
  * @mixin \Eloquent
  */
-
 class Anime extends Model
 {
     use HasFactory;
@@ -50,17 +49,17 @@ class Anime extends Model
 
     public function scopeFilter($query, array $filters) //Post::newQuery()->filter()
     {
-        $query->when($filters['search'] ?? false, function ($query, $search){
+        $query->when($filters['search'] ?? false, function ($query, $search) {
             $query
                 ->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%')->first();
         });
-        $query->when($filters['genre'] ?? false, function ($query, $genre){
-        //select * from anime_genre join animes on anime_genre.anime_id=animes.id
+        $query->when($filters['genre'] ?? false, function ($query, $genre) {
+            //select * from anime_genre join animes on anime_genre.anime_id=animes.id
             $query
                 ->select('*')
                 ->from('anime_genre')
-                ->join('animes', 'anime_genre.anime_id',  '=', 'animes.id')
+                ->join('animes', 'anime_genre.anime_id', '=', 'animes.id')
                 ->where('anime_genre.genre_id', '=', $genre);
         });
     }
