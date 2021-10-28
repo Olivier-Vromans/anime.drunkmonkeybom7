@@ -293,10 +293,12 @@ class AnimeController extends Controller
     public function unFavorite(Request $request, Anime $anime)
     {
         $user = User::find(auth()->id());
-        $anime = Anime::find($request->input('id'));
-        $anime->save();
-        $anime->user()->detach($user);
-        return redirect()->back()->with('status', 'Anime Unfavorited');
+        if($user->anime()->exists() && count($user->anime()->get()) >= 2){
+            $anime = Anime::find($request->input('id'));
+            $anime->save();
+            $anime->user()->detach($user);
+            return redirect()->back()->with('status', 'Anime Unfavorited');
+        }
     }
     public function updateStatus(Request $request): \Illuminate\Http\JsonResponse
     {

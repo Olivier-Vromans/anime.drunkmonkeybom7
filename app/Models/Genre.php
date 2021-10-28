@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * App\Models\Genre
  *
  * @property int $id
- * @property string $genre_name
+ * @property string $name
  * @property-read Collection|Anime[] $anime
  * @property-read int|null $anime_count
  * @method static Builder|Genre newModelQuery()
@@ -29,7 +29,7 @@ class Genre extends Model
 
     protected $url = 'https://api.jikan.moe/v4/genres/anime';
     protected $table = 'genres';
-
+    public $timestamps = false;
 
 
     public function anime(): BelongsToMany

@@ -18,7 +18,6 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * App\Models\User
- *
  * @property int $id
  * @property int $role
  * @property string|null $firstname

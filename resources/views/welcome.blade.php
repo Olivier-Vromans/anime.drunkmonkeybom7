@@ -42,7 +42,7 @@
                                         @if(strlen($anime->title) <= 18)
                                             <span>
                                                 @foreach($anime->genres as $genre)
-                                                        {{$genre->genre_name }}
+                                                        {{$genre->name }}
                                                 @endforeach
                                             </span>
                                         @endif

@@ -76,7 +76,7 @@
                             <td data-id="{{ $anime->id }}">{{ $anime->rating }}</td>
                             <td data-id="{{ $anime->id }}">
                                 @foreach($anime->genres as $genre)
-                                {{ $genre->genre_name }}
+                                {{ $genre->name }}
                                 @endforeach
                             </td>
                             <td data-id="{{ $anime->id }}">{{ $anime->year }}</td>

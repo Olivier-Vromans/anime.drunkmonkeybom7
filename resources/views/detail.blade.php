@@ -19,46 +19,48 @@
             <p class="text-center">{{$anime->description}}</p>
             <span>{{$anime->episodes}} episodes</span><br>
             @foreach($anime->genres as $genre)
-                <span>{{$genre->genre_name }}</span>
+                <span>{{$genre->name }}</span>
             @endforeach
             <span>{{$anime->premiered}}</span>
         </div>
     </div>
     <div class="favorite">
-        @if(Auth::user())
-            {{--        Check if $anime has a relation with the id of the user--}}
-            @if($anime->user()->find(Auth::id()))
-                <form action="{{ route('unfavorite', $anime)  }}" method="post" class="text-left"
-                      enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group row">
-                        <div class="col-sm-9 text-center">
-                            <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
+        @if($user->anime()->exists() && count($user->anime()->get()) >= 2)
+            @if(Auth::user())
+                {{--        Check if $anime has a relation with the id of the user--}}
+                @if($anime->user()->find(Auth::id()))
+                    <form action="{{ route('unfavorite', $anime)  }}" method="post" class="text-left"
+                          enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-sm-9 text-center">
+                                <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row justify-content-center text-center">
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-secondary mb-2">Unfavorite</button>
+                        <div class="form-group row justify-content-center text-center">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-secondary mb-2">Unfavorite</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            @elseif(!$anime->user()->find(Auth::id()))
-                <form action="{{ route('favorite', $anime)  }}" method="post" class="text-left"
-                      enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group row ">
-                        <div class="col-sm-9">
-                            <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
-                        </div>
-                    </div>
-                    <div class="form-group row justify-content-center">
-                        <div class="col-sm-2 text-center">
-                            <button type="submit" class="btn btn-danger mb-2">Favorite</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                @endif
+            @else
             @endif
-        @else
+        @elseif(!$anime->user()->find(Auth::id()))
+            <form action="{{ route('favorite', $anime)  }}" method="post" class="text-left"
+                  enctype="multipart/form-data">
+                @csrf
+                <div class="form-group row ">
+                    <div class="col-sm-9">
+                        <input type="id" id="id" name="id" value="{{$anime->id}}" hidden>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-center">
+                    <div class="col-sm-2 text-center">
+                        <button type="submit" class="btn btn-danger mb-2">Favorite</button>
+                    </div>
+                </div>
+            </form>
         @endif
     </div>
 @endsection

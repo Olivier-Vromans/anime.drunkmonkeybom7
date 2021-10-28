@@ -49,7 +49,7 @@
                                         @foreach($animeGenres as $animeGenre)
                                             {{ ($animeGenre->id == ($genre->id)) ? 'checked' : '' }}
                                         @endforeach
-                                        <span> {{ $genre->genre_name }}</span>
+                                        <span> {{ $genre->name }}</span>
                                     </label>
                                 @endforeach
                             </div>
