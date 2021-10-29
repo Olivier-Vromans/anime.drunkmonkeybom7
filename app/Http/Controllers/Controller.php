@@ -40,8 +40,9 @@ class Controller extends BaseController
 
 //      Genre API
 //        $url = HTTP::get('https://api.jikan.moe/v4/genres/anime');
-//        $urlGenres = $url->collect('data')->unique('mal_id');
+//        $urlGenres = $url->collect('data')->unique('name');
 //
+////        dd($urlGenres);
 //        if($url){
 //            foreach ($urlGenres as $urlGenre) {
 //                $AddedGenres = false;

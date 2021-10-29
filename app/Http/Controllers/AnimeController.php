@@ -56,7 +56,8 @@ class AnimeController extends Controller
         if (auth()->user()->role === 1) {
             $genres = Genre::all();
             $user = User::find(auth()->id());
-            return view('admin/addAnime', compact('genres', 'user'));
+            $animeGenres = [];
+            return view('admin/addAnime', compact('genres', 'user', 'animeGenres'));
         } else {
             return redirect('/');
         }
@@ -73,7 +74,6 @@ class AnimeController extends Controller
         if (auth()->user()->role === 1){
             $anime = new Anime;
             $animeGenres = $request->input('genre_id');
-
             //        Check if Title has been filled other wise skip this part of the edit
             if (!$request->input('title') == "") {
                 $anime->title = $request->input('title');

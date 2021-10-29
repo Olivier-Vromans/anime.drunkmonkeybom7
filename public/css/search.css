@@ -1,0 +1,76 @@
+/*Search Div*/
+.search-div{
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+.search-div  input[type=text] {
+    background: rgba(255,255,255,.05);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-left: 1px solid rgba(255,255,255,.4);
+    border-top: 1px solid rgba(255,255,255,.4);
+    border-bottom: 1px solid rgba(255,255,255,.4);
+    border-right: transparent;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #fff;
+    outline: 0;
+}
+.search-div button {
+    background: rgba(255, 255, 255, .05);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-right: 1px solid rgba(255, 255, 255, .4);
+    border-top: 1px solid rgba(255, 255, 255, .4);
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
+    border-left: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, .8);
+    cursor: pointer;
+}
+
+/*Results Div*/
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center
+}
+
+.card {
+    height: 230px;
+    width: 150px;
+    margin: 10px;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.cards .card__image {
+    height: 190px;
+    width: 100%;
+}
+.cards .card__image img {
+    height: 100%;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.cards .card__name {
+    height: 40px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #343434;
+    font-weight: 700;
+}
+.cards .card__name span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

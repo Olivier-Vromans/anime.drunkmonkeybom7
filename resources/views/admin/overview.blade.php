@@ -9,7 +9,9 @@
 @extends('layouts.layout')
 <!--Navigation-->
 @section('head')
-{{--Load in DataTable--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    {{--Load in DataTable--}}
     <script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js" defer></script>
 

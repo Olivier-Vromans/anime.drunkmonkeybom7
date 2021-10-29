@@ -57,9 +57,4 @@
     </div>
 @endsection
 @section('footer')
-    <script>
-        document.getElementById("favoriteURL").onclick = function() {
-            document.getElementById("favorite").submit();
-        }
-    </script>
 @endsection

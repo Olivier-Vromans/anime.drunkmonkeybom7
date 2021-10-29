@@ -7,6 +7,10 @@
     **/
 @endphp
 @extends('layouts.layout')
+@section('head')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+@endsection
 @section('nav')
 @endsection
 <body>
@@ -42,16 +46,17 @@
 {{--                        Genres--}}
                         <div class="form-group row">
                             <label for="genre_id" class="col-sm-3 col-form-label">Genres</label>
-                            <div class="col-sm-9">
-                                @foreach($genres as $genre)
-                                    <label>
-                                        <input id="genre_id" name="genre_id[]" type="checkbox" value="{{ $genre->id }}"
+                            <div class="col-sm-9" style="color: #495057">
+                                <select id='myselect' name="genre_id[]" multiple>
+                                    <option value="">Select An Option</option>
+                                    @foreach($genres as $genre)
+                                        <option value="{{ $genre->id }}"
                                         @foreach($animeGenres as $animeGenre)
-                                            {{ ($animeGenre->id == ($genre->id)) ? 'checked' : '' }}
-                                        @endforeach
-                                        <span> {{ $genre->name }}</span>
-                                    </label>
-                                @endforeach
+                                            {{ ($animeGenre->id == ($genre->id)) ? 'selected' : '' }}
+                                            @endforeach
+                                        >{{ $genre->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 {{--                        Episodes--}}
@@ -124,5 +129,6 @@
     </div>
 @endsection
 @section('footer')
+    <script src="{{asset("js/search.js")}}"></script>
 @endsection
 </body>

@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <link rel="stylesheet" href="/css/search.css">
 @endsection
 @section('nav')
 @endsection
@@ -19,13 +20,24 @@
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
-            <div class="container">
-                @if(session('status'))
-                    <h4 class="alert alert-success">{{ session('status') }}</h4>
-                @endif
-                @if(session('danger'))
-                    <h4 class="alert alert-danger">{{session('danger')}}</h4>
-                @endif
+            <div class="container" id="container">
+                <div id="alerts">
+                    @if(session('status'))
+                        <h4 class="alert alert-success" id="succes">{{ session('status') }}</h4>
+                    @endif
+                    @if(session('danger'))
+                        <h4 class="alert alert-danger" id="danger">{{session('danger')}}</h4>
+                    @endif
+                </div>
+                <div class="app">
+                    <p>Try out the Anime Search API</p>
+                    <div class="search search-div">
+                        <input id="search_query" type="text" name="query" placeholder="search for an anime, e.g Naruto">
+                        <button id="search">Go</button>
+                    </div>
+                    <div class="cards" id="search_results">
+                    </div>
+                </div>
                 <form action="{{ route('anime.store')  }}" method="post" class="text-left"
                       enctype="multipart/form-data">
                     @csrf
@@ -51,14 +63,22 @@
                         <div class="form-group row">
                             <label for="genre_id" class="col-sm-3 col-form-label">Genres</label>
                             <div class="col-sm-9" style="color: #495057">
-                                <select id='myselect' name="genre_id[]" multiple>
-                                    <option value="">Select An Option</option>
+                                <select id='myselect' name="genre_id[]" multiple="multiple">
                                     @foreach($genres as $genre)
-                                        <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                        @if(session('animeGenres') == null)
+                                            <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                        @else
+                                            <option value="{{ $genre->id }}"
+                                                @foreach(session('animeGenres') as $animeGenre)
+                                                    {{ ($animeGenre == ($genre->id)) ? 'selected="selected"' : '' }}
+                                                @endforeach
+                                            >{{ $genre->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+                        {{--                        @dd(session('animeGenres'))--}}
                         {{--Episodes--}}
                         <div class="form-group row">
                             <label for="episodes" class="col-sm-3 col-form-label">Episodes</label>
@@ -135,12 +155,6 @@
     </div>
 @endsection
 @section('footer')
-    <script>
-        $('#myselect').select2({
-            width: '100%',
-            placeholder: "Select an Option",
-            allowClear: true
-        });
-    </script>
+    <script src="{{asset("js/search.js")}}"></script>
 @endsection
 </body>
