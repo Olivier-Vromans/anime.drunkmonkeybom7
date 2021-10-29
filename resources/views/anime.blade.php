@@ -2,7 +2,8 @@
     /**
     * @var Anime $anime
     * @var User $user
-    **/use App\Models\Anime;use App\Models\User;
+    * @var Genre $genre
+    **/use App\Models\Anime;use App\Models\Genre;use App\Models\User;
 @endphp
 @extends('layouts.layout')
 <!--Navigation-->
@@ -22,13 +23,13 @@
                         <form method="GET" action="#" class="form-inline my-2 my-lg-0 justify-content-center text-center" role="search">
 {{--                            Filter function--}}
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{isset($currentGenre) ? ucwords($currentGenre->genre_name) : 'Filter'}}
+                                {{isset($currentGenre) ? ucwords($currentGenre->name) : 'Filter'}}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <option class="dropdown-item" disabled>--Select Genre--</option>
                                 <a href="/anime" class="dropdown-item">All Genres</a>
                                 @foreach($genres as $genre)
-                                    <a href="/anime?genre={{$genre->id}}&{{http_build_query(request()->except('genre'))}}" class="dropdown-item" value="{{$genre->id}}">{{ $genre->genre_name }}</a>
+                                    <a href="/anime?genre={{$genre->id}}&{{http_build_query(request()->except('genre'))}}" class="dropdown-item" value="{{$genre->id}}">{{ $genre->name }}</a>
                                 @endforeach
                                 @if(request('genre'))
                                 @endif
