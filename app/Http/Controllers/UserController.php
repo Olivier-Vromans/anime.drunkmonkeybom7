@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -53,15 +54,19 @@ class UserController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if (auth()->user()->id == intval($id)){
-            $user = User::find($id);
-            $animes = Anime::all();
-            $genres = Genre::all();
-            $favorites = $user->anime()->get();
-            return view('users.myprofile', compact('user', 'animes', 'genres', 'favorites'));
-        }else{
-            return redirect('/');
-        }
+//        if(Auth::user()){
+            if (auth()->user()->id == intval($id)){
+                $user = User::find($id);
+                $animes = Anime::all();
+                $genres = Genre::all();
+                $favorites = $user->anime()->get();
+                return view('users.myprofile', compact('user', 'animes', 'genres', 'favorites'));
+            }else{
+                return redirect('/');
+            }
+//        }else{
+//            return redirect('/');
+//        }
     }
 
     /**
