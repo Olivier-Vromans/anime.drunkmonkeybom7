@@ -11,8 +11,11 @@ function search() {
         alert('Error: Requires atleast 3 or more characters');
         return;
     }
-
+    let alerts = document.querySelectorAll('.alert')
     let results = document.querySelectorAll('#results')
+    for (let i=0; i<alerts.length + 2; i++){
+        $(".alert").remove();
+    }
     for (let i=0; i<results.length + 2; i++){
         $("#results").remove();
     }
@@ -113,7 +116,6 @@ function addSuccess(){
     danger.innerHTML = `Genres won't show up <br> images need to be uploaded`
     alerts.appendChild(succes)
     alerts.appendChild(danger)
-
 }
 
 
