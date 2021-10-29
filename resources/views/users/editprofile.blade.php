@@ -9,12 +9,19 @@
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
             <div class="container">
-                @if(session('status'))
-                    <h4 class="alert alert-success">{{ session('status') }}</h4>
-                @endif
-                @if(session('danger'))
-                    <h4 class="alert alert-danger">{{session('danger')}}</h4>
-                @endif
+                <div id="alerts">
+                    @if(session('status'))
+                        <h4 class="alert alert-success" id="succes">{{ session('status') }}</h4>
+                    @endif
+                    @if(session('danger'))
+                        <h4 class="alert alert-danger" id="danger">{{session('danger')}}</h4>
+                    @endif
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            {!! implode('', $errors->all('<div>:message</div>')) !!}
+                        </div>
+                    @endif
+                </div>
                 <form action="{{ route('user.update', $user)  }}" method="post" class="text-left" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

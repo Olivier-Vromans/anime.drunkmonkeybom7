@@ -21,12 +21,18 @@
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center text-white">
             <div class="container" id="container">
+{{--                Div for all Errors messangers--}}
                 <div id="alerts">
                     @if(session('status'))
                         <h4 class="alert alert-success" id="succes">{{ session('status') }}</h4>
                     @endif
                     @if(session('danger'))
                         <h4 class="alert alert-danger" id="danger">{{session('danger')}}</h4>
+                    @endif
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            {!! implode('', $errors->all('<div>:message</div>')) !!}
+                        </div>
                     @endif
                 </div>
                 <div class="app">
@@ -48,7 +54,7 @@
                             <label for="title" class="col-sm-3 col-form-label">Title</label>
                             <div class="col-sm-9">
                                 <input type="text" id="title" name="title" value="{{session('anime.title')}}"
-                                       class="form-control" placeholder="Anime Title" required>
+                                       class="form-control" placeholder="Anime Title">
                             </div>
                         </div>
                         {{--Description --}}
