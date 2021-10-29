@@ -147,12 +147,12 @@ class AnimeController extends Controller
      * @return Application|Factory|View|Response
      */
     //TODO IF still working delete this
-    public function showGenre(Request $request, Genre $genres)
-    {
-
-        $genres = Genre::all();
-        return view('anime', compact('anime', 'genres'));
-    }
+//    public function showGenre(Request $request, Genre $genres)
+//    {
+//
+//        $genres = Genre::all();
+//        return view('anime', compact('anime', 'genres'));
+//    }
 
     /**
      * Show the form for editing the specified resource.
