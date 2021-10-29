@@ -22,7 +22,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
         return redirect('/');
     }
 
@@ -54,19 +53,16 @@ class UserController extends Controller
      */
     public function show(Request $request, $id)
     {
-//        if(Auth::user()){
-            if (auth()->user()->id == intval($id)){
-                $user = User::find($id);
-                $animes = Anime::all();
-                $genres = Genre::all();
-                $favorites = $user->anime()->get();
-                return view('users.myprofile', compact('user', 'animes', 'genres', 'favorites'));
-            }else{
-                return redirect('/');
-            }
-//        }else{
-//            return redirect('/');
-//        }
+        //show user page and check if it is the same url otherwise go back to home page
+        if (auth()->user()->id == intval($id)) {
+            $user = User::find($id);
+            $animes = Anime::all();
+            $genres = Genre::all();
+            $favorites = $user->anime()->get();
+            return view('users.myprofile', compact('user', 'animes', 'genres', 'favorites'));
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -77,10 +73,12 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        if (auth()->user()->id == intval($id)){
+        //show edit page and check if it is the same url otherwise go back to home page
+        if (auth()->user()->id == intval($id)) {
+            //find user and return view with the data
             $user = User::find($id);
-            return view('users/editprofile', compact( 'user'));
-        }else{
+            return view('users/editprofile', compact('user'));
+        } else {
             return redirect('/');
         }
     }
@@ -94,35 +92,27 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if (auth()->user()){
+        //check if user signed in
+        if (auth()->user()) {
             $user = User::find($user->id);
+            $request->validate([
+                'firsname' => 'required|string',
+                'lastname' => 'required|string',
+                'username' => "required|string",
+                'image_show' => "max:10000|mimes:png,jpeg,jpg",
+            ]);
 
-//              Check if Firstname has been filled other wise skip this part of the edit
-            if (!$request->input('firstname') == "") {
-                $user->firstname = $request->input('firstname');
-            }
-
-//              Check if Lastname has been filled other wise skip this part of the edit
-            if (!$request->input('lastname') == "") {
-                $user->lastname = $request->input('lastname');
-            }
-
-//              Check if Username has been filled other wise skip this part of the edit
-            if (!$request->input('username') == "") {
-                $user->username = $request->input('username');
-            }
-
-//        Check if profile_picture has been added other wise skip this part of the edit
-            if (!$request->file('profile_picture') == ""){
-                $user->profile_picture = $request->file('profile_picture')->storePublicly('images/profile_picture', 'public');
-                $user->profile_picture = str_replace('images/profile_picture', '', $user->profile_picture);
-            }
+            $user->firstname = $request->input('firstname');
+            $user->lastname = $request->input('lastname');
+            $user->username = $request->input('username');
+            $user->profile_picture = $request->file('profile_picture')->storePublicly('images/profile_picture', 'public');
+            $user->profile_picture = str_replace('images/profile_picture', '', $user->profile_picture);
 
             //        save data
             $user->save();
             //        Redirect back to admin with status
             return redirect()->route('user.show', $user)->with('status', "Profile Updated");
-        }else{
+        } else {
             return redirect()->route('/');
         }
     }
@@ -130,7 +120,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)

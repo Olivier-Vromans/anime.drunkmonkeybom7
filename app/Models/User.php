@@ -62,6 +62,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
+    //Relation tables only comments not implemented as of yet
     public function comments(): HasMany
     {
         return $this->hasMany(Comments::class);

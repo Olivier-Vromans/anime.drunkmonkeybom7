@@ -50,6 +50,7 @@ class Anime extends Model
     public function scopeFilter($query, array $filters) //Post::newQuery()->filter()
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
+            //select * from `animes` where `title` like '%' or `description` like '% order by desc'
             $query
                 ->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%')->first();
@@ -64,6 +65,7 @@ class Anime extends Model
         });
     }
 
+    //Relation tables only comments not implemented as of yet
     public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Genre::class);

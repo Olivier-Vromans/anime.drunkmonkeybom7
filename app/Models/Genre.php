@@ -27,11 +27,12 @@ class Genre extends Model
 {
     use HasFactory;
 
+    //protect the url and set timestamp on false
     protected $url = 'https://api.jikan.moe/v4/genres/anime';
     protected $table = 'genres';
     public $timestamps = false;
 
-
+    //Relation table
     public function anime(): BelongsToMany
     {
         return $this->belongsToMany(Anime::class);

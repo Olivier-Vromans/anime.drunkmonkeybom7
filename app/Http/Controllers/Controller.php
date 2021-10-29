@@ -22,15 +22,16 @@ class Controller extends BaseController
     public function index()
     {
 
-        //Get all Data from the Anime Model
+        //Get all anime and find the user
         $animes = Anime::all();
         $user = User::find(auth()->id());
-        $genres = Genre::all();
 
+        //get the top anime and take 3
 //        $response = Http::get('https://api.jikan.moe/v3/top/anime/1/upcoming');
 //        $animesTop = $response->collect('top')->take(3);
 
 //      Anime API
+        //for loop to get the animes and push it
 //        foreach($animesTop as $animeTop){
 //            $url = 'https://api.jikan.moe/v3/anime/' . $animeTop['mal_id'];
 //            $response = Http::get($url);
@@ -39,10 +40,10 @@ class Controller extends BaseController
 //        };
 
 //      Genre API
+        //get all genrs and filter on unique name
 //        $url = HTTP::get('https://api.jikan.moe/v4/genres/anime');
 //        $urlGenres = $url->collect('data')->unique('name');
 //
-////        dd($urlGenres);
 //        if($url){
 //            foreach ($urlGenres as $urlGenre) {
 //                $AddedGenres = false;

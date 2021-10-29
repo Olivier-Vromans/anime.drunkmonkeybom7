@@ -24,9 +24,13 @@ class AnimeController extends Controller
     public function index()
     {
         return view('anime', [
+            //Get all anime and if there is a filter or search get only those
             'animes' => Anime::latest()->filter(request(['search', 'genre']))->get()->sortBy('id'),
+            //Get al genres
             'genres' => Genre::all(),
+            //Get current genre
             'currentGenre' => Genre::firstWhere('id', request('genre')),
+            //Get current user
             'user' => User::find(auth()->id())
         ]);
     }
@@ -35,13 +39,17 @@ class AnimeController extends Controller
      * Display Admin Page.
      *
      */
-    public function admin(){
-        if (auth()->user()->role === 1){
+    public function admin()
+    {
+        //Check if user is an admin else return to home
+        if (auth()->user()->role === 1) {
+            //get all anime, genres and the user
             $animes = Anime::all();
             $genres = Genre::all();
             $user = User::find(auth()->id());
+            //return the user
             return view('admin/overview', compact('animes', 'genres', 'user'));
-        }else{
+        } else {
             return redirect('/');
         }
     }
@@ -53,7 +61,9 @@ class AnimeController extends Controller
      */
     public function create()
     {
+        //Check if user is an admin else return to home
         if (auth()->user()->role === 1) {
+            //get all genres and the user and the current selected genres
             $genres = Genre::all();
             $user = User::find(auth()->id());
             $animeGenres = [];
@@ -71,65 +81,44 @@ class AnimeController extends Controller
      */
     public function store(Request $request)
     {
-        if (auth()->user()->role === 1){
+        //Check if user is an admin else return to home
+        if (auth()->user()->role === 1) {
+            //create new Anime
             $anime = new Anime;
+
+            //Check if all fields are filled
+            $request->validate([
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'genre_id' => 'required|array',
+                'episodes' => 'required|numeric',
+                'rating' => "required|numeric",
+                'season' => "required|string",
+                'year' => "required|numeric",
+                'image_card' => "required|max:10000|mimes:png",
+                'image_show' => "required|max:10000|mimes:png,jpeg,jpg",
+            ]);
+
+            //input all request inputs and make an object of $anime
             $animeGenres = $request->input('genre_id');
-            //        Check if Title has been filled other wise skip this part of the edit
-            if (!$request->input('title') == "") {
-                $anime->title = $request->input('title');
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime title must be filled in');
-            }
-
-            //        Check if Description has been filled other wise skip this part of the edit
-            if (!$request->input('description') == "") {
-                $anime->description = $request->input('description');
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime description must be filled in');
-            }
-
-            //        Check if Episodes has been filled other wise skip this part of the edit
-            if (!$request->input('episodes') == "") {
-                $anime->episodes = $request->input('episodes');
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime episodes must be filled in');
-            }
-
-            //        Check if Rating has been filled other wise skip this part of the edit
-            if (!$request->input('rating') == "") {
-                $anime->rating = $request->input('rating');
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime rating must be filled in');
-            }
-
-            //        Check if Season & Year has been filled other wise skip this part of the edit
-            if (!$request->input('season') == "" && !$request->input('year') == "" || $request->input('season') == "" || !$request->input('year') == "") {
-                $anime->year = $request->input('season'). " " . $request->input('year');
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime premiere season and year must be filled in');
-            }
-
-            //        Check if Image_card has been added other wise skip this part of the edit
-            if (!$request->file('image_card') == ""){
-                $anime->image_card = $request->file('image_card')->storePublicly('images/images_card', 'public');
-                $anime->image_card = str_replace('images/image_card/', '', $anime->image_card);
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image card must be uploaded');
-            }
-            //        Check if Image_show has been added other wise skip this part of the edit
-            if (!$request->file('image_show') == ""){
-                $anime->image_show = $request->file('image_show')->storePublicly('images/images_show', 'public');
-                $anime->image_show = str_replace('images/image_show/', '', $anime->image_show);
-            }else{
-                return redirect()->back()->with(compact('anime', 'animeGenres'))->with('danger', 'Anime image show must be uploaded');
-            }
-
-
+            $anime->title = $request->input('title');
+            $anime->description = $request->input('description');
+            $anime->episodes = $request->input('episodes');
+            $anime->rating = $request->input('rating');
+            $anime->year = $request->input('season') . " " . $request->input('year');
+            $anime->image_card = $request->file('image_card')->storePublicly('images/image_card', 'public');
+            $anime->image_card = str_replace('images/image_card/', '', $anime->image_card);
+            $anime->image_show = $request->file('image_show')->storePublicly('images/image_show', 'public');
+            $anime->image_show = str_replace('images/image_show/', '', $anime->image_show);
             $anime->status = $request->input('status');
+
+            //Save the new anime to the Database
             $anime->save();
+            //make relations between the anime and the genres
             $anime->genres()->attach($request->input('genre_id'));
+            //After Successfully creating the anime redirect back with a status
             return redirect()->route('admin')->with('status', 'Anime Added Successfully');
-        }else{
+        } else {
             return redirect('/');
         }
     }
@@ -143,8 +132,10 @@ class AnimeController extends Controller
      */
     public function show(Request $request, Anime $anime)
     {
+        //get all genres and the user
         $genres = Genre::all();
         $user = User::find(auth()->id());
+        //return the detail blade with the given anime
         return view('detail', compact('anime', 'genres', 'user'));
     }
 
@@ -155,10 +146,11 @@ class AnimeController extends Controller
      * @param Genre $genres
      * @return Application|Factory|View|Response
      */
+    //TODO IF still working delete this
     public function showGenre(Request $request, Genre $genres)
     {
-        $genres = Genre::all();
 
+        $genres = Genre::all();
         return view('anime', compact('anime', 'genres'));
     }
 
@@ -170,14 +162,16 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
-        if (auth()->user()->role === 1){
+        //Check if user is an admin else return to home
+        if (auth()->user()->role === 1) {
+            //get the relations, anime, genres and user
             $animeGenres = $anime->genres()->get();
             $anime = Anime::find($anime->id);
             $genres = Genre::all();
             $user = User::find(auth()->id());
-
+            //return the edit page for the anime
             return view('admin/edit', compact('anime', 'genres', 'animeGenres', 'user'));
-        }else{
+        } else {
             return redirect('/');
         }
     }
@@ -191,61 +185,61 @@ class AnimeController extends Controller
      */
     public function update(Request $request, Anime $anime)
     {
-        if (auth()->user()->role === 1){
+        //Check if user is an admin else return to home
+        if (auth()->user()->role === 1) {
             $anime = Anime::find($anime->id);
 
-            //        Check if Title has been filled other wise skip this part of the edit
+            //Check if Title has been filled other wise skip this part of the edit
             if (!$request->input('title') == "") {
                 $anime->title = $request->input('title');
             }
 
-            //        Check if Description has been filled other wise skip this part of the edit
+            //Check if Description has been filled other wise skip this part of the edit
             if (!$request->input('description') == "") {
                 $anime->description = $request->input('description');
             }
 
-            //        Check if Episodes has been filled other wise skip this part of the edit
+            //Check if Episodes has been filled other wise skip this part of the edit
             if (!$request->input('episodes') == "") {
                 $anime->episodes = $request->input('episodes');
             }
 
-            //        Check if Rating has been filled other wise skip this part of the edit
+            //Check if Rating has been filled other wise skip this part of the edit
             if (!$request->input('rating') == "") {
                 $anime->rating = $request->input('rating');
             }
 
-            //        Check if Season & Year has been filled other wise skip this part of the edit
+            //Check if Season & Year has been filled other wise skip this part of the edit
             if (!$request->input('season') == "" && !$request->input('year') == "") {
-                $anime->year = $request->input('season'). " " . $request->input('year');
-            }
-            //        Check if Season has been filled other wise skip this part of the edit
-            elseif (!$request->input('season') == "" ) {
-                $anime->year = $request->input('season'). " " . substr($anime->year, -4);
-            }
-            //        Check if Year has been filled other wise skip this part of the edit
-            elseif (!$request->input('year') == ""){
+                $anime->year = $request->input('season') . " " . $request->input('year');
+            } //Check if Season has been filled other wise skip this part of the edit
+            elseif (!$request->input('season') == "") {
+                $anime->year = $request->input('season') . " " . substr($anime->year, -4);
+            } //Check if Year has been filled other wise skip this part of the edit
+            elseif (!$request->input('year') == "") {
                 $anime->year = substr($anime->year, 0, -5) . " " . $request->input('year');
             }
 
-            //        Check if Image_card has been added other wise skip this part of the edit
-            if (!$request->file('image_card') == ""){
+            //Check if Image_card has been added other wise skip this part of the edit
+            if (!$request->file('image_card') == "") {
                 $anime->image_card = $request->file('image_card')->storePublicly('images/image_card', 'public');
                 $anime->image_card = str_replace('images/image_card/', '', $anime->image_card);
             }
-            //        Check if Image_show has been added other wise skip this part of the edit
-            if (!$request->file('image_show') == ""){
+            //Check if Image_show has been added other wise skip this part of the edit
+            if (!$request->file('image_show') == "") {
                 $anime->image_show = $request->file('image_show')->storePublicly('images/image_show', 'public');
                 $anime->image_show = str_replace('images/image_show/', '', $anime->image_show);
             }
-            //        save data
+
+            //save data
             $anime->save();
-            //        Detach past relations with genre
+            //Detach past relations with genre
             $anime->genres()->detach();
-            //        Attach new relations with genre
+            //Attach new relations with genre
             $anime->genres()->attach($request->input('genre_id'));
-            //        Redirect back to admin with status
+            //Redirect back to admin with status
             return redirect()->route('admin')->with('status', "Anime Updated");
-        }else{
+        } else {
             return redirect('/');
         }
     }
@@ -257,11 +251,15 @@ class AnimeController extends Controller
      */
     public function destroy(Anime $anime)
     {
-        if (auth()->user()->role === 1){
+        //Check if user is an admin else return to home
+        if (auth()->user()->role === 1) {
+            //Detach past relations with genre
             $anime->genres()->detach();
+            //Delete the anime for the Database
             $anime->delete();
+            //redirect back with status
             return redirect()->back()->with('status', 'Anime Deleted');
-        }else{
+        } else {
             return redirect('/');
         }
 
@@ -276,10 +274,15 @@ class AnimeController extends Controller
      */
     public function favorite(Request $request, Anime $anime)
     {
+        //find the user
         $user = User::find(auth()->id());
+        //find the user with given id
         $anime = Anime::find($request->input('id'));
+        //save the data
         $anime->save();
+        //Attach new relation with user
         $anime->user()->attach($user);
+        //return with status
         return redirect()->back()->with('status', 'Anime Favorited');
     }
 
@@ -292,20 +295,31 @@ class AnimeController extends Controller
      */
     public function unFavorite(Request $request, Anime $anime)
     {
+        //find the user
         $user = User::find(auth()->id());
-        if($user->anime()->exists() && count($user->anime()->get()) >= 2){
+        //check if relation exists and if the user has more than 2
+        if ($user->anime()->exists() && count($user->anime()->get()) >= 2) {
+            //find the user with given id
             $anime = Anime::find($request->input('id'));
+            //save the data
             $anime->save();
+            //Detach relation with anime
             $anime->user()->detach($user);
+            //return with status
+
             return redirect()->back()->with('status', 'Anime Unfavorited');
         }
     }
+
     public function updateStatus(Request $request): \Illuminate\Http\JsonResponse
     {
+        //find the requested anime or fail
         $anime = Anime::findOrFail($request->anime_id);
+        //change status 1=on 0=off
         $anime->status = $request->status;
+        //save data
         $anime->save();
-
+        //return with status
         return response()->json(['status' => 'Anime status updated successfully.']);
     }
 }
