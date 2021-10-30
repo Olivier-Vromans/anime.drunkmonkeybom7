@@ -100,8 +100,11 @@
     </div>
 @endsection
 @section('footer')
-    <script>let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+    <script>
+        //get everuthing with the id js-switch
+        let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
+        //loop through all js-switches and make a switch out of it
         elems.forEach(function(html) {
             let switchery = new Switchery(html,  { size: 'small' });
         });

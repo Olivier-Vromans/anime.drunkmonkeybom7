@@ -63,9 +63,6 @@
                 <li class="nav-item {{ Request::is('anime') ? 'active' : '' }}">
                     <a class="nav-link text-right" href="{{ url('anime') }}">Anime</a>
                 </li>
-                <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
-                    <a class="nav-link text-right" href="{{ url('about') }}">About</a>
-                </li>
                 @guest
 {{--                    Check if logged in else login tab--}}
                     @if (Route::has('login'))

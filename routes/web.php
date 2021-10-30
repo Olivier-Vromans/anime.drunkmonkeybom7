@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
@@ -25,9 +24,6 @@ Route::post('/anime/changeStatus', [AnimeController::class, 'updateStatus']);
 Route::get('/anime/admin', [AnimeController::class, 'admin'])->name('admin')->middleware('auth');
 Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('anime', AnimeController::class);
-
-Route::get('/about', [AboutController::class, 'index']);
-//Post inside the websites
 
 Route::get('/anime/{genre}', [AnimeController::class, 'showGenre'])->name('genre');
 
