@@ -96,7 +96,7 @@ class UserController extends Controller
         if (auth()->user()) {
             $user = User::find($user->id);
             $request->validate([
-                'firsname' => 'required|string',
+                'firstname' => 'required|string',
                 'lastname' => 'required|string',
                 'username' => "required|string",
                 'image_show' => "max:10000|mimes:png,jpeg,jpg",
@@ -105,9 +105,11 @@ class UserController extends Controller
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
             $user->username = $request->input('username');
-            $user->profile_picture = $request->file('profile_picture')->storePublicly('images/profile_picture', 'public');
-            $user->profile_picture = str_replace('images/profile_picture', '', $user->profile_picture);
 
+            if (!$request->file('profile_picture') == "") {
+                $user->profile_picture = $request->file('profile_picture')->storePublicly('images/profile_picture', 'public');
+                $user->profile_picture = str_replace('images/profile_picture', '', $user->profile_picture);
+            }
             //        save data
             $user->save();
             //        Redirect back to admin with status
