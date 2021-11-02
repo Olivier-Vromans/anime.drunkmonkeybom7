@@ -28,3 +28,9 @@ Route::resource('anime', AnimeController::class);
 Route::get('/anime/{genre}', [AnimeController::class, 'showGenre'])->name('genre');
 
 Auth::routes();
+
+
+//Storage Link
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+})->middleware('auth');
