@@ -44,7 +44,7 @@
                     <div class="cards" id="search_results">
                     </div>
                 </div>
-                <form action="{{ route('anime.store')  }}" method="post" class="text-left"
+                <form action="{{ route('anime.store') }}" method="post" class="text-left"
                       enctype="multipart/form-data">
                     @csrf
                     <fieldset>
