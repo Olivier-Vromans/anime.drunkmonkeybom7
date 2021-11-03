@@ -125,6 +125,12 @@
     border: 1px solid #ced4da;
 }
 
+.scrollbar{
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
 @media (max-width: 1150px) {
     #container {
         grid-template-columns: 1fr 1fr;

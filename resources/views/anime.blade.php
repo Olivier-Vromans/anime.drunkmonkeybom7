@@ -25,7 +25,7 @@
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{isset($currentGenre) ? ucwords($currentGenre->name) : 'Filter'}}
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu scrollbar" aria-labelledby="dropdownMenuButton">
                                 <option class="dropdown-item" disabled>--Select Genre--</option>
                                 <a href="/anime" class="dropdown-item">All Genres</a>
                                 @foreach($genres as $genre)

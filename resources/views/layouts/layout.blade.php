@@ -112,7 +112,7 @@
             <div class="container p-4 pb-0">
                 <p>You wanne follow me? why?
                     <br>
-                    but okay these are my socials.
+                    But okay these are my socials.
                 </p>
                 <!-- Section: Social media -->
                 <section>
