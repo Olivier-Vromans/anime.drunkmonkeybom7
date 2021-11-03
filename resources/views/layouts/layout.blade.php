@@ -107,11 +107,15 @@
     </div>
     <div>
         @yield('footer')
-        <footer class="bg-dark text-center text-white">
+        <footer class=" text-center text-white mt-5" style="background-color: rgba(0, 0, 0, 0.2);">
             <!-- Grid container -->
             <div class="container p-4 pb-0">
+                <p>You wanne follow me? why?
+                    <br>
+                    but okay these are my socials.
+                </p>
                 <!-- Section: Social media -->
-                <section class="mb-4">
+                <section>
                     <!-- Facebook -->
                     <a target="_blank" class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/olivier.vromans/" role="button"
                     ><i class="fab fa-facebook-f"></i
@@ -146,13 +150,6 @@
                 <!-- Section: Social media -->
             </div>
             <!-- Grid container -->
-
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2020 Copyright:
-                <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-            </div>
-            <!-- Copyright -->
         </footer>
     </div>
 </body>
