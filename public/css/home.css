@@ -1,6 +1,6 @@
 @font-face {
     font-family: Gang of Three;
-    src: local('fonts/go3v2.ttf');
+    src: url("fonts/GoT.ttf");
 }
 *{
     padding: 0;
